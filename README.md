@@ -31,7 +31,7 @@ export FLASK_APP=app.py
 ```
 On windows
 ```bash
-set FLASK_APP=app.py
+set FLASK_APP=run.py
 ```
 
 
