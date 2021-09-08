@@ -27,7 +27,7 @@ Set environment varible to run flask app
 
 On Unix,Mac
 ```bash
-export FLASK_APP=app.py
+export FLASK_APP=run.py
 ```
 On windows
 ```bash
