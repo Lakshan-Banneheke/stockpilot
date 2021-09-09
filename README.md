@@ -34,6 +34,10 @@ On windows
 set FLASK_APP=run.py
 ```
 
+Set Debug mode ON
+```bash
+set FLASK_ENV=development
+```
 
 ### Run The Project
 ```bash
