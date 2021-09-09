@@ -23,6 +23,16 @@ Next, install the necessary dependencies using the [requirements.txt](requiremen
 ```bash
 pip install -r requirements.txt 
 ```
+Set environment varible to run flask app
+
+On Unix,Mac
+```bash
+export FLASK_APP=app.py
+```
+On windows
+```bash
+set FLASK_APP=app.py
+```
 
 Set Debug mode ON
 ```bash
