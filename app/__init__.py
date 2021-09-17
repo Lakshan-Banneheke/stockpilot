@@ -3,8 +3,10 @@ from app.home import HOME_BP
 from app.binanceStream import BINANCE_BP
 from getStreamData import getStreamData
 
+from flask_cors import CORS
 
 APP = Flask(__name__)
+CORS(APP)
 
 
 @APP.before_first_request
