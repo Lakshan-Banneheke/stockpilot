@@ -1,0 +1,32 @@
+Follow the following points to configure the front end to listen
+
+Add the below script to the listening page, backend will comtinuously feed the required data and can retrieve the data from e.data
+
+ <script>
+    var eventSource = new EventSource("http://localhost:5000/binance/listen/BNBBTC")
+    
+    eventSource.addEventListener("message", function(e) {
+      var div = document.getElementById('counter');
+      div.innerHTML += e.data;
+    }, false)
+
+  </script>
+
+
+############################################################### Listening Endpoints
+
+Listening endpoints are available in the binanceStream __init__ file
+
+To add endpoints to listening do the following things,
+
+> Add a stream connection to getStreamData __init__ file start the twm
+> In pubsub.data_center create a new announcer instance and add to the dictionery
+> Extend the listen_socket() logic
+
+localhost:5000/binance/listen/BNBBTC      # Listen the BNBBTC Stream
+localhost:5000/binance/listen/BNBUSDT     # Listen the BNBUSDT Stream
+
+############################################################### Listening Endpoints Ends
+
+
+
