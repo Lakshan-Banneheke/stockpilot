@@ -1,3 +1,4 @@
+import json
 import queue
 
 class MessageAnnouncer:
@@ -11,7 +12,10 @@ class MessageAnnouncer:
         return q
 
     def announce(self, msg):
-        msg = format_sse(data=msg)
+        json_msg = json.dumps(msg)
+
+        msg = format_sse(data=json_msg)
+
         for i in reversed(range(len(self.listeners))):
             try:
                 self.listeners[i].put_nowait(msg)

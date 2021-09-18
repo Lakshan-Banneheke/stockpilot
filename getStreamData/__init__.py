@@ -18,7 +18,7 @@ def getStreamData():
         # print(f"message type: {msg['e']}")
         announce_socket(msg['s'],msg)
         # print(msg)
-        print(msg['s'])
+        # print(msg['s'])
 
     twm.start_kline_socket(callback=handle_socket_message, symbol='BNBBTC')
     twm.start_kline_socket(callback=handle_socket_message, symbol='BNBUSDT')
