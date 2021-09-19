@@ -55,9 +55,11 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
 
     client = pymongo.MongoClient(url)
 
+    print("heres")
+
     db = client[dbName]
 
-    try:
+    if(True):
         if (type=="create_collection"):
             result = create_collection(db,parameters)
         elif(type=="insert_one"):
@@ -78,8 +80,10 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
             result = "DB Action not specified"
 
         return(result)
-    except:
-        return("Unexpected Error Has occured")
+    # except ValueError:
+    #     return("Unexpected Value Error")
+    # except:
+    #     return("Unexpected Error Has occured")
 
         
 
