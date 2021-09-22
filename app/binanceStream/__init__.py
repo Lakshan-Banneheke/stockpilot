@@ -10,9 +10,9 @@ from binance.client import Client
 BINANCE_BP = Blueprint('BINANCE_BP', __name__)
 
 
-@BINANCE_BP.route('/', methods=['GET'])
-def binanceStream():
-    return render_template('home/home.html')
+# @BINANCE_BP.route('/', methods=['GET'])
+# def binanceStream():
+#     return render_template('home/home.html')
 
 
 @BINANCE_BP.route('/listen/<string:btc_name>', methods=['GET'])
