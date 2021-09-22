@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-
+import os
 
 HOME_BP = Blueprint('HOME_BP', __name__)
 
