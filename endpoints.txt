@@ -28,5 +28,39 @@ localhost:5000/binance/listen/BNBUSDT     # Listen the BNBUSDT Stream
 
 ############################################################### Listening Endpoints Ends
 
+############################################################### Watch List Endpoints
+
+To access the watch list of a user use the following end points
+
+> Create a new watch list with one or more brands or add brands to the existing watch list 
+
+  [POST]  localhost:5000/wlist/addBrand
+
+  in the request body pass the following json
+
+  {
+      "email":"lakshan@gmail.com",
+      "brands":["BNBBTC","BNBUSDT"]
+  }
+
+> To get the brand names in an existing watch list use the following endpoints
+
+  [GET] localhost:5000/wlist/viewWlist/email_of_the_relevent_user
+
+
+> To remove brands from the relevent watch list
+
+  [DELETE]  localhost:5000/wlist/removeBrand/
+
+  pass the following as a json in the request body
+
+  {
+    "email":"user@gmail.com",
+    "brands":["brand01","brand02"]
+  }
+
+
+############################################################### Watch List Endpoints Ends
+
 
 

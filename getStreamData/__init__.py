@@ -11,7 +11,7 @@ def getStreamData():
     # start is required to initialise its internal loop
     twm.start()
 
-    print("came here")
+    print("Publisher started working !!!")
 
     def handle_socket_message(msg):
         # Have a switch statement for msg['s'] here which will store the relevant symbol data in the required place in the database

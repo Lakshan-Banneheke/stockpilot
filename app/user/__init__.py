@@ -1,6 +1,5 @@
 import json
-
-from flask import Blueprint, render_template, request
+from flask import Blueprint, request
 from db_access import db_action
 
 
@@ -15,6 +14,8 @@ def register():
     result = db_action("insert_one",[{"first_name":data['user']['firstName'],"last_name":data['user']['lastName'],"email":data['user']['email']},"users"],"admin")
     print(result)
     return("Done")
+
+
 
 
 
