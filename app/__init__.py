@@ -7,12 +7,11 @@ from getStreamData import getStreamData
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 
-
 APP = Flask(__name__)
 CORS(APP)
 
-
 scheduler = BackgroundScheduler()
+
 
 @APP.before_first_request
 def activate_job():
