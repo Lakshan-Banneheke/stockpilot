@@ -1,5 +1,6 @@
 from flask import Blueprint
 
+from app.ta.bbands import generate_bbands
 from app.ta.moving_averages import generate_wma, generate_sma, generate_ma, generate_ema
 from app.ta.obv import generate_obv
 from app.ta.roc import generate_roc
@@ -43,6 +44,12 @@ def get_sma():
 def get_wma():
     return generate_wma()
 
+
 @TA_BP.route('/stoch', methods=['GET'])
 def get_stoch():
     return generate_stoch()
+
+
+@TA_BP.route('/bbands', methods=['GET'])
+def get_bbands():
+    return generate_bbands()
