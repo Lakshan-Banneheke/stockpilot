@@ -4,6 +4,7 @@ from app.ta.moving_averages import generate_wma, generate_sma, generate_ma, gene
 from app.ta.obv import generate_obv
 from app.ta.roc import generate_roc
 from app.ta.rsi import generate_rsi
+from app.ta.stoch import generate_stoch
 
 TA_BP = Blueprint('TA_BP', __name__)
 
@@ -41,3 +42,7 @@ def get_sma():
 @TA_BP.route('/wma', methods=['GET'])
 def get_wma():
     return generate_wma()
+
+@TA_BP.route('/stoch', methods=['GET'])
+def get_stoch():
+    return generate_stoch()
