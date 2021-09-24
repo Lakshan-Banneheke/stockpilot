@@ -1,29 +1,41 @@
 from binance import ThreadedWebsocketManager
+from binance.enums import KLINE_INTERVAL_15MINUTE, KLINE_INTERVAL_1DAY, KLINE_INTERVAL_1HOUR, KLINE_INTERVAL_1MINUTE, KLINE_INTERVAL_30MINUTE
 from app.pubsub.data_center import announce_socket
 
 api_key = 'sxhyNXQCWllwYdqgPIyPJ9gr5y0L8n3is23vBzpKfTdIgVIiSSX8BrTIrxm25nVV'
 api_secret = '5TsvpN7ZtawCVEyV5Ts2BFlf46S7ETy8okYe9TDYJJ8VuzzoM1qvMMBOVQ7JaawW'
 
+symbols =["BNBBTC","BNBUSDT"]
+
 
 def getStreamData():
 
     twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
-    # start is required to initialise its internal loop
+
     twm.start()
 
     print("Publisher started working !!!")
 
-    def handle_socket_message(msg):
-        # Have a switch statement for msg['s'] here which will store the relevant symbol data in the required place in the database
-        # print(f"message type: {msg['e']}")
-        announce_socket(msg['s'],msg)
-        # print(msg)
-        # print(msg['s'])
-
-    twm.start_kline_socket(callback=handle_socket_message, symbol='BNBBTC')
-    twm.start_kline_socket(callback=handle_socket_message, symbol='BNBUSDT')
-
+    for smbl in symbols:
+        start_to_listen(twm,smbl)
+    
     twm.join()
 
     
+
+def start_to_listen(twm,symbl):
+
+    def handle_socket_message(msg):
+        announce_socket(msg['s'],msg['k']['i'],msg)
+        print(msg['s'],msg['k']['i'])
+
+    twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1MINUTE)
+    twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_15MINUTE)
+    twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_30MINUTE)
+    twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1HOUR)
+    twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1DAY)
+
+    
+
+
 

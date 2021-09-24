@@ -10,20 +10,15 @@ from binance.client import Client
 BINANCE_BP = Blueprint('BINANCE_BP', __name__)
 
 
-# @BINANCE_BP.route('/', methods=['GET'])
-# def binanceStream():
-#     return render_template('home/home.html')
-
-
-@BINANCE_BP.route('/listen/<string:btc_name>', methods=['GET'])
-def listen(btc_name):
-    def stream(btc_name):
-        messages = listen_socket(btc_name)  
+@BINANCE_BP.route('/listen/<btc_name>/<interval>', methods=['GET'])
+def listen(btc_name,interval):
+    def stream(btc_name,interval):
+        messages = listen_socket(btc_name,interval)  
         while True:                        
             msg = messages.get()  
             yield msg
 
-    return flask.Response(stream(btc_name), mimetype='text/event-stream')
+    return flask.Response(stream(btc_name,interval), mimetype='text/event-stream')
 
 @BINANCE_BP.route('/api/historical/<string:btc_name>', methods=['GET'])
 def getHistorical(btc_name):

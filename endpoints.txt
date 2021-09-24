@@ -19,12 +19,18 @@ Listening endpoints are available in the binanceStream __init__ file
 
 To add endpoints to listening do the following things,
 
-> Add a stream connection to getStreamData __init__ file start the twm
-> In pubsub.data_center create a new announcer instance and add to the dictionery
-> Extend the listen_socket() logic
+To extend the available crypto need to add the crypto to the symbols list in
 
-localhost:5000/binance/listen/BNBBTC      # Listen the BNBBTC Stream
-localhost:5000/binance/listen/BNBUSDT     # Listen the BNBUSDT Stream
+        * getStreamData __init__.py file
+        * pubsub data_center.py file
+
+Once all the required crypto are added will add them to a collection in database and query so can easily extend the endpoints as required
+
+  [GET] localhost:5000/binance/listen/crypto_name/crypto_interval     
+
+  Here crypto_name is one from the symbols list mentioned above
+  Here crypto_interval is one from the followings
+          1m  15m   30m   1h    1d
 
 ############################################################### Listening Endpoints Ends
 

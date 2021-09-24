@@ -1,17 +1,20 @@
 from .ps_model import MessageAnnouncer
 
-announcers = {"BNBBTC":MessageAnnouncer(),"BNBUSDT":MessageAnnouncer()}
+announcers = {}
 
-def announce_socket(name,raw_data): # use this function to announce the stream data to the respective user set
-    announcers[name].announce(raw_data)
+symbols = ["BNBBTC","BNBUSDT"]
 
-def listen_socket(name): # according to the user input neeeds to listen to the relevent announcer instance
-    if (name=='BNBBTC'):
-        announcer = announcers['BNBBTC']
-        return(announcer.listen())
+def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
+    announcers[name][interval].announce(raw_data)
 
-    elif (name=='BNBUSDT'):
-        announcer = announcers['BNBUSDT']
-        return(announcer.listen())
+def listen_socket(name,interval): # according to the user input neeeds to listen to the relevent announcer instance
+    announcer = announcers[name][interval]
+    return(announcer.listen())
+
+
+def initiate_publisher_set():
+    for symbl in symbols:
+        announcers[symbl] = {"1d":MessageAnnouncer(),"1h":MessageAnnouncer(),"30m":MessageAnnouncer(),"15m":MessageAnnouncer(),"1m":MessageAnnouncer()}
+
     
     
