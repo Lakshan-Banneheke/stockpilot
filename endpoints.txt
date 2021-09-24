@@ -19,14 +19,54 @@ Listening endpoints are available in the binanceStream __init__ file
 
 To add endpoints to listening do the following things,
 
-> Add a stream connection to getStreamData __init__ file start the twm
-> In pubsub.data_center create a new announcer instance and add to the dictionery
-> Extend the listen_socket() logic
+To extend the available crypto need to add the crypto to the symbols list in
 
-localhost:5000/binance/listen/BNBBTC      # Listen the BNBBTC Stream
-localhost:5000/binance/listen/BNBUSDT     # Listen the BNBUSDT Stream
+        * getStreamData __init__.py file
+        * pubsub data_center.py file
+
+Once all the required crypto are added will add them to a collection in database and query so can easily extend the endpoints as required
+
+  [GET] localhost:5000/binance/listen/crypto_name/crypto_interval     
+
+  Here crypto_name is one from the symbols list mentioned above
+  Here crypto_interval is one from the followings
+          1m  15m   30m   1h    1d
 
 ############################################################### Listening Endpoints Ends
+
+############################################################### Watch List Endpoints
+
+To access the watch list of a user use the following end points
+
+> Create a new watch list with one or more brands or add brands to the existing watch list 
+
+  [POST]  localhost:5000/wlist/addBrand
+
+  in the request body pass the following json
+
+  {
+      "email":"lakshan@gmail.com",
+      "brands":["BNBBTC","BNBUSDT"]
+  }
+
+> To get the brand names in an existing watch list use the following endpoints
+
+  [GET] localhost:5000/wlist/viewWlist/email_of_the_relevent_user
+
+
+> To remove brands from the relevent watch list
+
+  [DELETE]  localhost:5000/wlist/removeBrand/
+
+  pass the following as a json in the request body
+
+  {
+    "email":"user@gmail.com",
+    "brands":["brand01","brand02"]
+  }
+
+
+############################################################### Watch List Endpoints Ends
 
 
 

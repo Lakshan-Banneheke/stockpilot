@@ -22,6 +22,10 @@ def read_many_from_collection(db,data,cName): # data should be the query as a di
         result.append(read)
     return(result) 
 
+def update_one_document(db,query,newValues,cName):
+    coll = db[cName]
+    return(coll.update_one(query,newValues))
+
 def count_document(db,data,cName):
     coll = db[cName]
     return(coll.count_documents(data)) # returns the matching document count
@@ -55,8 +59,6 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
 
     client = pymongo.MongoClient(url)
 
-    print("heres")
-
     db = client[dbName]
 
     if(True):
@@ -70,6 +72,8 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
             result = read_one_from_collection(db,parameters[0],parameters[1])
         elif(type=="read_many"):
             result = read_many_from_collection(db,parameters[0],parameters[1])
+        elif(type=="update_one"):
+            result = update_one_document(db,parameters[0],parameters[1],parameters[2])
         elif(type=="count"):
             result = count_document(db,parameters[0],parameters[1])
         elif(type=="remove_one"):
