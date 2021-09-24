@@ -56,6 +56,7 @@ def login():
         try:
             token = jwt.encode({
                 'public_id': user_data['public_id'],
+                'user_data': user_data,
                 'exp': datetime.utcnow() + timedelta(minutes=3000)
             }, os.environ['SECRET_KEY'], algorithm="HS256")
             return make_response(jsonify({'token': token}), 201)
