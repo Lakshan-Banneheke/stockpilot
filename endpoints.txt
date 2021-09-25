@@ -69,4 +69,23 @@ To access the watch list of a user use the following end points
 ############################################################### Watch List Endpoints Ends
 
 
+############################################################ User end points
+Login = localhost:5000/user/login
+Register = localhost:5000/user/register
+
+############################################################ User end points ends
+
+############################################################ TA end points
+RSI = localhost:5000/ta/rsi
+MACD = localhost:5000/ta/macd
+Bollinger Bands = localhost:5000/ta/bbands
+ROC = localhost:5000/ta/roc
+STOCH = localhost:5000/ta/stoch
+MA = localhost:5000/ta/ma
+SMA = localhost:5000/ta/sma
+EMA = localhost:5000/ta/ema
+WMA = localhost:5000/ta/wma
+OBV = localhost:5000/ta/obv
+
+############################################################ TA end points ends
 
