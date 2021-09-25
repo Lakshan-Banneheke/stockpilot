@@ -1,6 +1,7 @@
 from flask import Flask
 from app.home import HOME_BP
 from app.binanceStream import BINANCE_BP
+from app.stock import STOCK_BP
 from app.ta import TA_BP
 from app.user import USER_BP
 from app.acessWatchList import WLIST_BP
@@ -28,4 +29,4 @@ APP.register_blueprint(BINANCE_BP, url_prefix='/binance/')
 APP.register_blueprint(USER_BP, url_prefix='/user/')
 APP.register_blueprint(TA_BP, url_prefix='/ta/')
 APP.register_blueprint(WLIST_BP, url_prefix='/wlist/')
-
+APP.register_blueprint(STOCK_BP, url_prefix='/stock/')
