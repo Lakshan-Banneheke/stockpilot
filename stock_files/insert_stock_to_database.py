@@ -22,9 +22,9 @@ def insert_1day_to_db(list):
                 ls.append(line)
             a = True
         file.close()
-        json_obj = json.dumps(ls)
         data_obj = {
-            "data_1d": json_obj
+            "type": "data_1d",
+            "data": ls
         }
         db_action("insert_one", [data_obj, i], "admin")
 
@@ -46,9 +46,9 @@ def insert_1hour_to_db(list):
                 ls.append(line)
             a = True
         file.close()
-        json_obj = json.dumps(ls)
         data_obj = {
-            "data_1h": json_obj
+            "type": 'data_1h',
+            "data": ls
         }
 
         db_action("insert_one", [data_obj, i], "admin")
@@ -71,14 +71,28 @@ def insert_5min_to_db(list):
                 ls.append(line)
             a = True
         file.close()
-        json_obj = json.dumps(ls)
         data_obj = {
-            "data_5_min": json_obj
+            "type": 'data_5m',
+            "data": ls
         }
         db_action("insert_one", [data_obj, i], "admin")
+
+def delete(ls):
+    for i in ls:
+        db_action("delete_collection", [i], "admin")
+
+def add_stock(ls):
+    data_obj = {
+        "type": "stock",
+        "data": ls
+    }
+    db_action("insert_one", [data_obj, 'symbols'], "admin")
+
 
 # insert_1day_to_db(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
 # insert_1hour_to_db(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
 # insert_5min_to_db(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
-#
-#
+
+# delete(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
+
+# add_stock(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
