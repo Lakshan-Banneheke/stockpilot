@@ -1,0 +1,129 @@
+Follow the following points to configure the front end to listen
+
+Add the below script to the listening page, backend will comtinuously feed the required data and can retrieve the data from e.data
+
+ <script>
+    var eventSource = new EventSource("http://localhost:5000/binance/listen/BNBBTC")
+    
+    eventSource.addEventListener("message", function(e) {
+      var div = document.getElementById('counter');
+      div.innerHTML += e.data;
+    }, false)
+
+  </script>
+
+
+############################################################### Listening Endpoints
+
+Listening endpoints are available in the binanceStream __init__ file
+
+To add endpoints to listening do the following things,
+
+To extend the available crypto need to add the crypto to the symbols list in
+
+        * getStreamData __init__.py file
+        * pubsub data_center.py file
+
+Once all the required crypto are added will add them to a collection in database and query so can easily extend the endpoints as required
+
+  [GET] localhost:5000/binance/listen/crypto_name/crypto_interval     
+
+  Here crypto_name is one from the symbols list mentioned above
+  Here crypto_interval is one from the followings
+          1m  15m   30m   1h    1d
+
+############################################################### Listening Endpoints Ends
+
+############################################################### Watch List Endpoints
+
+To access the watch list of a user use the following end points
+
+> Create a new watch list with one or more brands or add brands to the existing watch list 
+
+  [POST]  localhost:5000/wlist/addBrand
+
+  in the request body pass the following json
+
+  {
+      "email":"lakshan@gmail.com",
+      "brands":["BNBBTC","BNBUSDT"]
+  }
+
+> To get the brand names in an existing watch list use the following endpoints
+
+  [GET] localhost:5000/wlist/viewWlist/email_of_the_relevent_user
+
+
+> To remove brands from the relevent watch list
+
+  [DELETE]  localhost:5000/wlist/removeBrand/
+
+  pass the following as a json in the request body
+
+  {
+    "email":"user@gmail.com",
+    "brands":["brand01","brand02"]
+  }
+
+
+############################################################### Watch List Endpoints Ends
+
+
+############################################################ User end points
+Login = localhost:5000/user/login
+Register = localhost:5000/user/register
+
+############################################################ User end points ends
+
+############################################################ TA end points
+RSI = localhost:5000/ta/rsi/type(stock or crypto)/stockOrCryptoName/interval
+MACD = localhost:5000/ta/macd/type(stock or crypto)/stockOrCryptoName/interval
+Bollinger Bands = localhost:5000/ta/bbands/type(stock or crypto)/stockOrCryptoName/interval
+ROC = localhost:5000/ta/roc/type(stock or crypto)/stockOrCryptoName/interval
+STOCH = localhost:5000/ta/stoch/type(stock or crypto)/stockOrCryptoName/interval
+MA = localhost:5000/ta/ma/type(stock or crypto)/stockOrCryptoName/interval
+SMA = localhost:5000/ta/sma/type(stock or crypto)/stockOrCryptoName/interval
+EMA = localhost:5000/ta/ema/type(stock or crypto)/stockOrCryptoName/interval
+WMA = localhost:5000/ta/wma/type(stock or crypto)/stockOrCryptoName/interval
+OBV = localhost:5000/ta/obv/type(stock or crypto)/stockOrCryptoName/interval
+
+############################################################ TA end points ends
+
+############################################################ Historical Crypto Data End point starts
+
+Can use this to get the historical data from the database.
+
+Here when the server starts 1 day history for all the crypto listed will be read from the binance and will be added to the database.
+
+Then when the real time data comes they are put in a queue and when the queue becomes full those data gets saved to the mongodb.
+
+End point reads the database first and then queue data is appended and returned as a json kline
+
+  [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here
+
+Intervals are defined under the listening endpoints.
+
+############################################################ Historical Data End point Ends
+
+############################################################ Historical Stock Data End point starts
+
+Can use this to get the historical data from the database.
+
+  [GET] localhost:5000/stock/historical/stock_name_comes_here/interval_comes Here
+
+Intervals are defined under the listening endpoints.
+
+############################################################ Historical Data End point Ends
+
+############################################################ General Endpoints starts
+
+  [GET] localhost:5000/binance/get_crypto      - Get the available crypto list
+
+  [GET] localhost:5000/stock/get_stock_list      - Get the available stock list
+
+  [POST] localhost:5000/binance/add_crypto/new_crypto_name_comes_here          # Dont use this end point, there are some things to be added later
+
+############################################################ General Endpoints Ends Here
+
+
+
