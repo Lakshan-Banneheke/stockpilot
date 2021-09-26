@@ -17,6 +17,8 @@ class MessageAnnouncer:
 
         sy = msg['s']
 
+        state = msg['k']['x']
+
         typ = "data_" + msg['k']['i']
 
         deocrated_msg_history = [msg['k']['t'],msg['k']['o'],msg['k']['h'],msg['k']['l'],msg['k']['c'],msg['k']['v'],msg['k']['T'],msg['k']['q'],msg['k']['n'],msg['k']['V'],msg['k']['Q'],msg['k']['B']]
@@ -32,7 +34,8 @@ class MessageAnnouncer:
                 del self.listeners[i]
         
         if len(self.db_push_queue)<=10:
-            self.db_push_queue.append(deocrated_msg_history)
+            if(state==True):
+                self.db_push_queue.append(deocrated_msg_history)
         else:
             hist = db_action("read_one",[{"type":typ},sy],"admin")
             new_data = hist['data']
