@@ -9,7 +9,7 @@ STOCK_BP = Blueprint('STOCK_BP', __name__)
 
 
 @STOCK_BP.route('/historical/<stock_name>/<interval>', methods=['GET'])
-def getHistorical(stock_name, interval):
+def getHistoricalStock(stock_name, interval):
     klines = get_historical_stock_data(stock_name, interval)
     json_klines = json.dumps(klines)
     return json_klines
