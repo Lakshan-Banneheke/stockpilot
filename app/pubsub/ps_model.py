@@ -40,7 +40,8 @@ class MessageAnnouncer:
             hist = db_action("read_one",[{"type":typ},sy],"admin")
             new_data = hist['data']
             for dec_set in self.db_push_queue:
-                new_data.append(dec_set)
+                if (hist['data'][-1][0]<dec_set[0]):
+                    new_data.append(dec_set)
             db_action("update_one",[{"type":typ},{"$set":{"data":new_data}},sy],"admin")
             print("db updated for",sy,typ,"because Waiting queue filled")
             self.db_push_queue = []
@@ -51,11 +52,14 @@ class MessageAnnouncer:
 
         hist = db_action("read_one",[{"type":interval_modified},symbl],"admin")
 
+        dt_set = hist['data']
+
         for i in self.db_push_queue:
-
-            hist['data'].append(i)
-
-        return(hist['data'])
+            if (dt_set[-1][0]<i[0]):
+                print(i)
+                dt_set.append(i)
+                
+        return(dt_set)
 
 
 
