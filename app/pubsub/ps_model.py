@@ -15,6 +15,10 @@ class MessageAnnouncer:
 
     def announce(self, msg):
 
+        sy = msg['s']
+
+        typ = "data_" + msg['k']['i']
+
         deocrated_msg_history = [msg['k']['t'],msg['k']['o'],msg['k']['h'],msg['k']['l'],msg['k']['c'],msg['k']['v'],msg['k']['T'],msg['k']['q'],msg['k']['n'],msg['k']['V'],msg['k']['Q'],msg['k']['B']]
 
         json_msg = json.dumps(msg)
@@ -30,9 +34,27 @@ class MessageAnnouncer:
         if len(self.db_push_queue)<=10:
             self.db_push_queue.append(deocrated_msg_history)
         else:
-            print(self.db_push_queue)
-            hist = db_action("read_one",)
+            hist = db_action("read_one",[{"type":typ},sy],"admin")
+            new_data = hist['data']
+            for dec_set in self.db_push_queue:
+                new_data.append(dec_set)
+            db_action("update_one",[{"type":typ},{"$set":{"data":new_data}},sy],"admin")
+            print("db updated for",sy,typ,"because Waiting queue filled")
             self.db_push_queue = []
+    
+    def get_historical_data(self,symbl,interval):
+
+        interval_modified = "data_" + interval
+
+        hist = db_action("read_one",[{"type":interval_modified},symbl],"admin")
+
+        for i in self.db_push_queue:
+
+            hist['data'].append(i)
+
+        return(hist['data'])
+
+
 
 
 def format_sse(data: str, event=None) -> str:
