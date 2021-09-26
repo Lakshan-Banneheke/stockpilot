@@ -76,16 +76,16 @@ Register = localhost:5000/user/register
 ############################################################ User end points ends
 
 ############################################################ TA end points
-RSI = localhost:5000/ta/rsi
-MACD = localhost:5000/ta/macd
-Bollinger Bands = localhost:5000/ta/bbands
-ROC = localhost:5000/ta/roc
-STOCH = localhost:5000/ta/stoch
-MA = localhost:5000/ta/ma
-SMA = localhost:5000/ta/sma
-EMA = localhost:5000/ta/ema
-WMA = localhost:5000/ta/wma
-OBV = localhost:5000/ta/obv
+RSI = localhost:5000/ta/rsi/type(stock or crypto)/stockOrCryptoName/interval
+MACD = localhost:5000/ta/macd/type(stock or crypto)/stockOrCryptoName/interval
+Bollinger Bands = localhost:5000/ta/bbands/type(stock or crypto)/stockOrCryptoName/interval
+ROC = localhost:5000/ta/roc/type(stock or crypto)/stockOrCryptoName/interval
+STOCH = localhost:5000/ta/stoch/type(stock or crypto)/stockOrCryptoName/interval
+MA = localhost:5000/ta/ma/type(stock or crypto)/stockOrCryptoName/interval
+SMA = localhost:5000/ta/sma/type(stock or crypto)/stockOrCryptoName/interval
+EMA = localhost:5000/ta/ema/type(stock or crypto)/stockOrCryptoName/interval
+WMA = localhost:5000/ta/wma/type(stock or crypto)/stockOrCryptoName/interval
+OBV = localhost:5000/ta/obv/type(stock or crypto)/stockOrCryptoName/interval
 
 ############################################################ TA end points ends
 
