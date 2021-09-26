@@ -28,7 +28,6 @@ def start_to_listen(twm,symbl):
 
     def handle_socket_message(msg):
         announce_socket(msg['s'],msg['k']['i'],msg)
-        print(msg['s'],msg['k']['i'])
 
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1MINUTE)
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_15MINUTE)
@@ -44,22 +43,8 @@ def get_symbol_set():
 
     return({"crypto_symbols":dt})
 
-def update_symbol_set(name):
 
-    symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
-
-    new_data = symbl_set['data']
-
-    if (symbl_set):
-        new_data.append(name)
-        db_action("update_one",[{"type":"crypto"},{"$set":{"data":new_data}},"symbols"],"admin")
-        update_in_memory()
-
-        return("Successfully updated")
-    else:
-        return("data base error")
-
-def update_in_memory():
+def initiate_get_stream():
 
     symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
 
@@ -69,7 +54,26 @@ def update_in_memory():
 
             symbols.append(symbl)
     
-    print(symbols)
+    print("Get Stream initiated",symbols)
+
+
+
+
+
+#def update_symbol_set(name):
+
+#     symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
+
+#     new_data = symbl_set['data']
+
+#     if (symbl_set):
+#         new_data.append(name)
+#         db_action("update_one",[{"type":"crypto"},{"$set":{"data":new_data}},"symbols"],"admin")
+#         update_in_memory()
+
+#         return("Successfully updated")
+#     else:
+#         return("data base error")
 
 
 

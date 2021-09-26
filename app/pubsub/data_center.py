@@ -5,7 +5,7 @@ from db_access import db_action
 
 announcers = {}
 
-symbols = ["BNBBTC","BNBUSDT"]
+symbols = []
 
 def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
     announcers[name][interval].announce(raw_data)
@@ -13,6 +13,10 @@ def announce_socket(name,interval,raw_data): # use this function to announce the
 def listen_socket(name,interval): # according to the user input neeeds to listen to the relevent announcer instance
     announcer = announcers[name][interval]
     return(announcer.listen())
+
+def get_history(symbl,interval):
+    return(announcers[symbl][interval].get_historical_data(symbl,interval))
+
 
 
 def initiate_publisher_set():
@@ -43,9 +47,27 @@ def initiate_historical_data_set():
         print("History Set For:",symbl)
 
     
-def get_history(symbl,interval):
+def initiate_in_memory():
 
-    return(announcers[symbl][interval].get_historical_data(symbl,interval))
+    symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
+
+    for symbl in symbl_set['data']:
+
+        if (symbl not in symbols):
+
+            symbols.append(symbl)
+    
+
+
+def initiate_pub_sub():
+
+    initiate_in_memory()
+    initiate_publisher_set()
+    initiate_historical_data_set()
+
+    print("PubSub Initiated",symbols)
+
+
 
 
         
