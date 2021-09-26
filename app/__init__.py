@@ -4,7 +4,7 @@ from app.binanceStream import BINANCE_BP
 from app.ta import TA_BP
 from app.user import USER_BP
 from app.acessWatchList import WLIST_BP
-from getStreamData import getStreamData
+from getStreamData import getStreamData, update_in_memory
 from app.pubsub.data_center import initiate_publisher_set,initiate_historical_data_set
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -17,6 +17,7 @@ scheduler = BackgroundScheduler()
 
 @APP.before_first_request
 def activate_job():
+    update_in_memory()
     initiate_publisher_set()
     initiate_historical_data_set()
     scheduler.add_job(getStreamData)

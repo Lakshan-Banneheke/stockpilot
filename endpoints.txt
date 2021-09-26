@@ -105,7 +105,13 @@ Intervals are defined under the listening endpoints.
 
 ############################################################ Historical Data End point Ends
 
+############################################################ General Endpoints starts
 
+  [GET] localhost:5000/binance/get_crypto      - Get the available crypto list
+
+  [POST] localhost:5000/binance/add_crypto/new_crypto_name_comes_here          # Dont use this end point, there are some things to be added later
+
+############################################################ General Endpoints Ends Here
 
 
 

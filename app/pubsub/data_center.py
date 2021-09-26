@@ -1,7 +1,7 @@
 from .ps_model import MessageAnnouncer
 from binance.client import Client
-import json
 from db_access import db_action
+
 
 announcers = {}
 
@@ -46,6 +46,7 @@ def initiate_historical_data_set():
 def get_history(symbl,interval):
 
     return(announcers[symbl][interval].get_historical_data(symbl,interval))
+
 
         
     
