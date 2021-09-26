@@ -38,6 +38,9 @@ def remove_many_from_collection(db,data,cName): # data contains the required que
     coll = db[cName]
     return(coll.delete_many(data))
 
+def delete_collection(db,cName): # data contains the required query
+    coll = db[cName]
+    return(coll.drop())
 
 
 
@@ -80,6 +83,8 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
             result = remove_one_from_collection(db,parameters[0],parameters[1])
         elif(type=="remove_many"):
             result =  remove_many_from_collection(db,parameters[0],parameters[1])
+        elif (type == "delete_collection"):
+            result = delete_collection(db, parameters[0])
         else:
             result = "DB Action not specified"
 

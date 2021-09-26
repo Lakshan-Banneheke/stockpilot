@@ -89,7 +89,7 @@ OBV = localhost:5000/ta/obv
 
 ############################################################ TA end points ends
 
-############################################################ Historical Data End point starts
+############################################################ Historical Crypto Data End point starts
 
 Can use this to get the historical data from the database.
 
@@ -105,9 +105,21 @@ Intervals are defined under the listening endpoints.
 
 ############################################################ Historical Data End point Ends
 
+############################################################ Historical Stock Data End point starts
+
+Can use this to get the historical data from the database.
+
+  [GET] localhost:5000/stock/historical/stock_name_comes_here/interval_comes Here
+
+Intervals are defined under the listening endpoints.
+
+############################################################ Historical Data End point Ends
+
 ############################################################ General Endpoints starts
 
   [GET] localhost:5000/binance/get_crypto      - Get the available crypto list
+
+  [GET] localhost:5000/stock/get_stock_list      - Get the available stock list
 
   [POST] localhost:5000/binance/add_crypto/new_crypto_name_comes_here          # Dont use this end point, there are some things to be added later
 
