@@ -89,3 +89,23 @@ OBV = localhost:5000/ta/obv
 
 ############################################################ TA end points ends
 
+############################################################ Historical Data End point starts
+
+Can use this to get the historical data from the database.
+
+Here when the server starts 1 day history for all the crypto listed will be read from the binance and will be added to the database.
+
+Then when the real time data comes they are put in a queue and when the queue becomes full those data gets saved to the mongodb.
+
+End point reads the database first and then queue data is appended and returned as a json kline
+
+  [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here
+
+Intervals are defined under the listening endpoints.
+
+############################################################ Historical Data End point Ends
+
+
+
+
+
