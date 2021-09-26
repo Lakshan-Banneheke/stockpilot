@@ -42,7 +42,12 @@ class MessageAnnouncer:
             for dec_set in self.db_push_queue:
                 if (hist['data'][-1][0]<dec_set[0]):
                     new_data.append(dec_set)
-            db_action("update_one",[{"type":typ},{"$set":{"data":new_data}},sy],"admin")
+            # db_action("update_one",[{"type":typ},{"$set":{"data":new_data}},sy],"admin")
+
+            db_action("remove_one",[{"type":typ},sy],"admin")
+
+            db_action("insert_one",[{"type":typ,"data":new_data},sy],"admin")
+
             print("db updated for",sy,typ,"because Waiting queue filled")
             self.db_push_queue = []
     
