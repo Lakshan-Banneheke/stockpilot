@@ -41,36 +41,34 @@ def token_required(f):
 @USER_BP.route('/login', methods=['POST'])
 def login():
     data = json.loads(request.data, strict=False)
-    user = data['user']
+    user = data['creds']
     if not user or not user['email'] or not user['password']:
-        return make_response(jsonify({'message': 'All fields are required for logging in'}), 400)
+        return make_response(jsonify({'message': 'All fields are required for logging in'}), 200)
 
     user_data = db_action("read_one", [{"email": user['email']}, "users"], "admin");
     if not user_data:
-        return make_response(jsonify({'message': 'Wrong Username or Password'}), 401)
+        return make_response(jsonify({'message': 'Wrong Username or Password'}), 200)
 
     if not check_password_hash(user_data['password'], user['password']):
-        return make_response(jsonify({'message': 'Wrong Username or Password'}), 401)
+        return make_response(jsonify({'message': 'Wrong Username or Password'}), 200)
 
     else:
         try:
+            del user_data['_id']
             token = jwt.encode({
-                'public_id': user_data['public_id'],
-                'user_data': user_data,
-                'exp': datetime.utcnow() + timedelta(minutes=3000)
-            }, os.environ['SECRET_KEY'], algorithm="HS256")
-            return make_response(jsonify({'token': token}), 201)
+                "public_id": user_data['public_id'],
+                "user_data": user_data,
+                "exp": datetime.utcnow() + timedelta(minutes=3000)
+            }, os.environ['SECRET_KEY'])
+            return make_response(jsonify({'token': token, 'message': 'Login Successful!'}), 200)
 
         except:
-            return make_response(jsonify({'message': 'Login Failed'}), 401)
+            return make_response(jsonify({'message': 'Login Failed'}), 200)
 
 
 @USER_BP.route('/register', methods=['POST'])
 def register():
-    print("register")
-
     data = json.loads(request.data, strict=False)
-    print(data)
     first_name = data['user']['firstName']
     last_name = data['user']['lastName']
     email = data['user']['email']
@@ -95,7 +93,7 @@ def register():
             }
 
             db_action("insert_one", [new_user, "users"], "admin")
-            return make_response(jsonify({'message': 'Successfully Registered.'}), 201)
+            return make_response(jsonify({'message': 'Successfully Registered'}), 201)
         except:
             return make_response(jsonify({'message': 'Database Error'}), 200)
 
