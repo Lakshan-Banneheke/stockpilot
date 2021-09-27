@@ -1,44 +1,39 @@
+from flask import make_response, jsonify
 
 from db_access import db_action
 
 
-def add_stock_to_watch_list(email,brandNames):
-    
-    current = db_action("read_one",[{"email_id":email},"watch_list"],"admin")
+def add_stock_to_watch_list(email, brandNames):
+    current = db_action("read_one", [{"email_id": email}, "watch_list"], "admin")
 
-    if(current):
+    if current:
         brandList = current['brands']
         for brand in brandNames:
             if brand not in brandList:
                 brandList.append(brand)
 
-        result = db_action("update_one",[{"email_id":email},{"$set":{"brands":brandList}},"watch_list"],"admin")
-        return("successfully updated the watch list")
+        result = db_action("update_one", [{"email_id": email}, {"$set": {"brands": brandList}}, "watch_list"], "admin")
+        return make_response(jsonify({'message': "Successful", "error": False}), 200)
     else:
-        result = db_action("insert_one",[{"email_id":email,"brands":brandNames},"watch_list"],"admin")
-        return("Successfully created a new watch_list and entered the brand")
+        result = db_action("insert_one", [{"email_id": email, "brands": brandNames}, "watch_list"], "admin")
+        return make_response(jsonify({'message': "Successful", "error": False}), 200)
+
 
 def view_watch_list(email):
-    
-    print(email)
+    current = db_action("read_one", [{"email_id": email}, "watch_list"], "admin")
+    return make_response(jsonify({"brands": current['brands'], "error": False}), 200)
 
-    current = db_action("read_one",[{"email_id":email},"watch_list"],"admin")
 
-    print(current)
+def remove_from_watch_list(email, brandNames):
+    current = db_action("read_one", [{"email_id": email}, "watch_list"], "admin")
 
-    return({"brands":current['brands']})
-
-def remove_from_watch_list(email,brandNames):
-
-    current = db_action("read_one",[{"email_id":email},"watch_list"],"admin")
-
-    if(current):
+    if current:
         brandList = current['brands']
         for brand in brandNames:
             if brand in brandList:
                 brandList.remove(brand)
 
-        result = db_action("update_one",[{"email_id":email},{"$set":{"brands":brandList}},"watch_list"],"admin")
-        return("successfully updated the watch list")
+        result = db_action("update_one", [{"email_id": email}, {"$set": {"brands": brandList}}, "watch_list"], "admin")
+        return make_response(jsonify({'message': "Successfully updated the watch list", "error": False}), 200)
     else:
-        return("No watch_list available for the given email")
+        return make_response(jsonify({'message': "No watch_list available for the given email", "error": True}), 200)
