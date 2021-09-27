@@ -27,13 +27,17 @@ Set environment varible to run flask app
 
 On Unix,Mac
 ```bash
-export FLASK_APP=run.py
+export FLASK_APP=app.py
 ```
 On windows
 ```bash
-set FLASK_APP=run.py
+set FLASK_APP=app.py
 ```
 
+Set Debug mode ON
+```bash
+set FLASK_ENV=development
+```
 
 ### Run The Project
 ```bash
