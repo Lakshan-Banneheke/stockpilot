@@ -135,6 +135,7 @@ Intervals are defined under the listening endpoints.
 
   type can be over 5,25,50 or 75    or else 25,50,75 decriment
 
+  "current peak price" is the closing price of the last days kline for the relevent symbol
 
 ############################################################ Notification Endpoints ends Here
 
