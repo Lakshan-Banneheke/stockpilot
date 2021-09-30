@@ -1,3 +1,4 @@
+import certifi
 import pymongo
 
 def create_collection(db,tName):
@@ -60,7 +61,7 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
     else:
         return("Error")
 
-    client = pymongo.MongoClient(url)
+    client = pymongo.MongoClient(url, tlsCAFile=certifi.where())
 
     db = client[dbName]
 
