@@ -31,6 +31,7 @@ Once all the required crypto are added will add them to a collection in database
   Here crypto_name is one from the symbols list mentioned above
   Here crypto_interval is one from the followings
           1m  15m   30m   1h    1d
+          5m  1h  1d
 
 ############################################################### Listening Endpoints Ends
 
