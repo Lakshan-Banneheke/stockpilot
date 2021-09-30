@@ -137,6 +137,13 @@ Intervals are defined under the listening endpoints.
 
   "current peak price" is the closing price of the last days kline for the relevent symbol
 
+
+
+  You can use the following endpoint to get all the notifications from the last 5 days
+
+    [GET]   localhost:5000/notifications/historical_nots/open_price
+
+
 ############################################################ Notification Endpoints ends Here
 
 
