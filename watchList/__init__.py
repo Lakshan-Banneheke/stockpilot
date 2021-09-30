@@ -24,14 +24,14 @@ def view_watch_list(email):
     return make_response(jsonify({"brands": current['brands'], "error": False}), 200)
 
 
-def remove_from_watch_list(email, brandNames):
+def remove_from_watch_list(email, brand):
     current = db_action("read_one", [{"email_id": email}, "watch_list"], "admin")
 
     if current:
         brandList = current['brands']
-        for brand in brandNames:
-            if brand in brandList:
-                brandList.remove(brand)
+
+        if brand in brandList:
+            brandList.remove(brand)
 
         result = db_action("update_one", [{"email_id": email}, {"$set": {"brands": brandList}}, "watch_list"], "admin")
         return make_response(jsonify({'message': "Successfully updated the watch list", "error": False}), 200)
