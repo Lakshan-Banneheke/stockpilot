@@ -103,7 +103,7 @@ def initiate_pub_sub():
 
     initiate_in_memory()
     initiate_publisher_set()
-    initiate_historical_data_set()
+    # initiate_historical_data_set()
 
     print("PubSub Initiated",symbols)
 
