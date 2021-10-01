@@ -18,15 +18,13 @@ def create_app():
 
     scheduler = BackgroundScheduler()
 
-
-@APP.before_first_request
-def activate_job():
-    initiate_get_stream()
-    initiate_pub_sub()
-    scheduler.add_job(getStreamData)
-    scheduler.add_job(look_for_nots)
-    scheduler.start()
-
+    @APP.before_first_request
+    def activate_job():
+        initiate_get_stream()
+        initiate_pub_sub()
+        scheduler.add_job(getStreamData)
+        scheduler.add_job(look_for_nots)
+        scheduler.start()
 
     APP.register_blueprint(HOME_BP, url_prefix='/')
     APP.register_blueprint(BINANCE_BP, url_prefix='/binance/')
@@ -37,4 +35,5 @@ def activate_job():
     APP.register_blueprint(NOTIFICATIONS_BP, url_prefix='/notifications/')
 
     return APP
+
 
