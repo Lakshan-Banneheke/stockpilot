@@ -132,7 +132,7 @@ Intervals are defined under the listening endpoints.
 
   Example returned
 
-  data: {'type': 'Over 5 percent incriment', 'symbol': 'BNBBTC', 'open price': '0.00874100', 'current peak price': 0.00812}
+  data: {'message':'successful','type': 'Over 5 percent incriment', 'symbol': 'BNBBTC', 'open price': '0.00874100', 'current peak price': 0.00812}
 
   type can be over 5,25,50 or 75    or else 25,50,75 decriment
 
