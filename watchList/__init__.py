@@ -21,7 +21,10 @@ def add_stock_to_watch_list(email, brandNames):
 
 def view_watch_list(email):
     current = db_action("read_one", [{"email_id": email}, "watch_list"], "admin")
-    return make_response(jsonify({"brands": current['brands'], "error": False}), 200)
+    if current is not None:
+        return make_response(jsonify({"brands": current['brands'], "error": False}), 200)
+    else:
+        return make_response(jsonify({"message": "Watchlist is empty", "error": True}), 200)
 
 
 def remove_from_watch_list(email, brand):
