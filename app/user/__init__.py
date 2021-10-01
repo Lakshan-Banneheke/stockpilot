@@ -42,7 +42,10 @@ def token_required(f):
 def login():
     data = json.loads(request.data, strict=False)
     user = data['creds']
-    if not user or not user['email'] or not user['password']:
+    try:
+        if not user or not user['email'] or not user['password']:
+            return make_response(jsonify({'message': 'All fields are required for logging in'}), 200)
+    except:
         return make_response(jsonify({'message': 'All fields are required for logging in'}), 200)
 
     user_data = db_action("read_one", [{"email": user['email']}, "users"], "admin");
