@@ -39,14 +39,3 @@ def get_symbols():
 
     
 
-
-
-
-
-# @BINANCE_BP.route('/api/historical/<string:btc_name>', methods=['GET'])
-# def getHistorical(btc_name):
-#     client = Client()
-#     klines = client.get_historical_klines(btc_name, Client.KLINE_INTERVAL_1MINUTE, "1 day ago UTC")
-#     json_klines = json.dumps(klines)
-#     return json_klines
-
