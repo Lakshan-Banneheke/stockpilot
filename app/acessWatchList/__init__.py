@@ -1,8 +1,9 @@
 from flask import Blueprint, request
 import json
 
+from app.acessWatchList.services import add_stock_to_watch_list, view_watch_list, remove_from_watch_list
 from app.user import token_required
-from watchList import add_stock_to_watch_list,view_watch_list,remove_from_watch_list
+
 
 WLIST_BP = Blueprint('WLIST_BP', __name__)
 
