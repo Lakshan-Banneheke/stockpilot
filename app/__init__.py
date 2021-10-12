@@ -6,7 +6,7 @@ from app.ta import TA_BP
 from app.user import USER_BP
 from app.acessWatchList import WLIST_BP
 from app.notifications import NOTIFICATIONS_BP
-from getStreamData import getStreamData, initiate_get_stream
+from getStreamData import getStreamData, initiate_get_stream, reboot_binance_connection
 from app.pubsub.data_center import initiate_pub_sub, look_for_nots
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -24,7 +24,10 @@ def create_app():
         initiate_pub_sub()
         scheduler.add_job(getStreamData)
         scheduler.add_job(look_for_nots)
+        scheduler.add_job(reboot_binance_connection)
         scheduler.start()
+        
+
 
     APP.register_blueprint(HOME_BP, url_prefix='/')
     APP.register_blueprint(BINANCE_BP, url_prefix='/binance/')
