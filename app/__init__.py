@@ -1,12 +1,11 @@
 from flask import Flask
-from app.home import HOME_BP
-from app.binanceStream import BINANCE_BP
+from app.crypto import CRYPTO_BP
 from app.stock import STOCK_BP
 from app.ta import TA_BP
 from app.user import USER_BP
 from app.acessWatchList import WLIST_BP
 from app.notifications import NOTIFICATIONS_BP
-from getStreamData import getStreamData, initiate_get_stream
+from stream_access import getStreamData, initiate_get_stream
 from app.pubsub.data_center import initiate_pub_sub, look_for_nots
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -26,8 +25,7 @@ def create_app():
         scheduler.add_job(look_for_nots)
         scheduler.start()
 
-    APP.register_blueprint(HOME_BP, url_prefix='/')
-    APP.register_blueprint(BINANCE_BP, url_prefix='/binance/')
+    APP.register_blueprint(CRYPTO_BP, url_prefix='/binance/')
     APP.register_blueprint(USER_BP, url_prefix='/user/')
     APP.register_blueprint(TA_BP, url_prefix='/ta/')
     APP.register_blueprint(WLIST_BP, url_prefix='/watchlist/')

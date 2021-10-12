@@ -1,5 +1,5 @@
 from app import APP
-from getStreamData import getStreamData
+from stream_access import getStreamData
 
 if __name__ == "__main__":
     APP.run(port=8000, debug=True)
