@@ -31,7 +31,6 @@ def create_app():
     APP.register_blueprint(WLIST_BP, url_prefix='/watchlist/')
     APP.register_blueprint(STOCK_BP, url_prefix='/stock/')
     APP.register_blueprint(NOTIFICATIONS_BP, url_prefix='/notifications/')
-
     return APP
 
 
