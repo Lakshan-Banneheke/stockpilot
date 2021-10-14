@@ -3,7 +3,7 @@ import flask
 import requests
 from flask import Blueprint
 from ..pubsub.data_center import listen_socket,get_history
-from stream_access import get_symbol_set
+from getStreamData import get_symbol_set
 from binance.client import Client
 
 
