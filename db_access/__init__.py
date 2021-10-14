@@ -54,7 +54,7 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
 
     general_url = os.environ['MONGO_URL_GENERAL']
 
-    dbName = 'StockPilot'
+    dbName = 'SPilot'
 
     if (user_type=="admin"):
         url = admin_url
