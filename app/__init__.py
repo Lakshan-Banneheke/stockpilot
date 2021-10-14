@@ -38,5 +38,3 @@ def create_app():
     APP.register_blueprint(NOTIFICATIONS_BP, url_prefix='/notifications/')
 
     return APP
-
-
