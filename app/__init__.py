@@ -26,6 +26,8 @@ def create_app():
         scheduler.add_job(look_for_nots)
         scheduler.add_job(reboot_binance_connection)
         scheduler.start()
+        
+
 
     APP.register_blueprint(HOME_BP, url_prefix='/')
     APP.register_blueprint(BINANCE_BP, url_prefix='/binance/')
