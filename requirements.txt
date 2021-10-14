@@ -3,6 +3,7 @@ APScheduler==3.7.0
 async-timeout==3.0.1
 atomicwrites==1.4.0
 attrs==21.2.0
+binance==0.3
 certifi==2021.5.30
 cffi==1.14.6
 chardet==4.0.0
