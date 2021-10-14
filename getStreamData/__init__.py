@@ -1,7 +1,6 @@
 from db_access import db_action
 from binance import ThreadedWebsocketManager
-from binance.enums import KLINE_INTERVAL_15MINUTE, KLINE_INTERVAL_1DAY, KLINE_INTERVAL_1HOUR, KLINE_INTERVAL_1MINUTE, \
-    KLINE_INTERVAL_30MINUTE
+from binance.enums import KLINE_INTERVAL_15MINUTE, KLINE_INTERVAL_1DAY, KLINE_INTERVAL_1HOUR, KLINE_INTERVAL_1MINUTE, KLINE_INTERVAL_30MINUTE
 from app.pubsub.data_center import announce_socket
 from binance.exceptions import BinanceAPIException
 import socket
@@ -14,6 +13,7 @@ symbols = []
 
 
 def getStreamData():
+
     if (checkInternetSocket()):
 
         twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
