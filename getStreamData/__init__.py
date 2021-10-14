@@ -29,6 +29,7 @@ def getStreamData():
 
 
 def start_to_listen(twm, symbl):
+
     def handle_socket_message(msg):
         announce_socket(msg['s'], msg['k']['i'], msg)
 
@@ -38,8 +39,8 @@ def start_to_listen(twm, symbl):
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1HOUR)
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1DAY)
 
-
 def get_symbol_set():
+
     symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
     dt = symbl_set['data']
@@ -48,11 +49,13 @@ def get_symbol_set():
 
 
 def initiate_get_stream():
+
     symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
     for symbl in symbl_set['data']:
 
         if (symbl not in symbols):
+
             symbols.append(symbl)
 
     print("Get Stream initiated", symbols)
@@ -66,8 +69,8 @@ def checkInternetSocket(host="8.8.8.8", port=53, timeout=3):
     except socket.error as ex:
         return (False)
 
-
 def reboot_binance_connection():
+
     while (True):
 
         reboot = False
@@ -81,6 +84,12 @@ def reboot_binance_connection():
         if (reboot):
             print("Internet Connection rebooted")
             getStreamData()
+
+
+
+
+
+
 
 # def update_symbol_set(name):
 
@@ -96,12 +105,3 @@ def reboot_binance_connection():
 #         return("Successfully updated")
 #     else:
 #         return("data base error")
-
-
-
-
-
-
-
-
-
