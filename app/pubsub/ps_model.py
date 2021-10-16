@@ -2,12 +2,13 @@ from db_access import db_action
 import json
 import queue
 from . import data_center
+from binance.client import Client
 
 class MessageAnnouncer:
 
     def __init__(self):
         self.listeners = []
-        self.db_push_queue =[]
+        self.client = Client()
 
     def listen(self):
         q = queue.Queue(maxsize=1000)
@@ -17,6 +18,8 @@ class MessageAnnouncer:
     def announce(self, msg):
 
         sy = msg['s']
+
+        coll_name = sy + "_" + msg['k']['i']
 
         state = msg['k']['x']
 
@@ -38,8 +41,10 @@ class MessageAnnouncer:
 
         if (typ=="data_1m" and state==True):
 
-            data = db_action("read_one",[{"type":"data_1d"},sy],"admin")
-            peak_price = float(data['data'][-1][1])
+            data = self.client.get_historical_klines(sy, Client.KLINE_INTERVAL_1DAY, "1 day ago UTC")
+
+            peak_price = float(data[0][1])
+
             percent_price = ((float(open_price) - peak_price)/peak_price)*100
 
             if (percent_price>75):
@@ -57,39 +62,32 @@ class MessageAnnouncer:
             elif(percent_price<(-75)):
                 data_center.add_notification({"message":"successful","type":"Over 75 percent decriment","symbol":sy,"open price":open_price,"current peak price":peak_price})
 
-        
-        if len(self.db_push_queue)<=10:
-            if(state==True):
-                self.db_push_queue.append(deocrated_msg_history)
-        else:
-            hist = db_action("read_one",[{"type":typ},sy],"admin")
-            new_data = hist['data']
-            for dec_set in self.db_push_queue:
-                if (hist['data'][-1][0]<dec_set[0]):
-                    new_data.append(dec_set)
+        if(state==True):
+            check = db_action("read_one",[{"time":deocrated_msg_history[0]},coll_name],"admin")
+            if (check):
+                req_doc = {"time":deocrated_msg_history[0]}
+                new_data = { "$set": { "data": deocrated_msg_history } }
 
-            db_action("remove_one",[{"type":typ},sy],"admin")
+                db_action("update_one",[req_doc,new_data,coll_name],"admin")
+                print("db updated for",sy,typ,"due interval closing")
+            else:
+                db_action("insert_one",[{"time":deocrated_msg_history[0],"data":deocrated_msg_history},coll_name],"admin")
+                print("db updated for",sy,typ,"due interval closing")
 
-            db_action("insert_one",[{"type":typ,"data":new_data},sy],"admin")
 
-            print("db updated for",sy,typ,"because Waiting queue filled")
-
-            self.db_push_queue = []
     
-    def get_historical_data(self,symbl,interval):
+    def get_historical_data(self,symbl,interval, start_date, end_data):
 
-        interval_modified = "data_" + interval
+        coll_name = symbl + "_" + interval
 
-        hist = db_action("read_one",[{"type":interval_modified},symbl],"admin")
+        hist = db_action("read_many",[{"time": {"$gte":end_data, "$lte":start_date}},coll_name],"admin")
 
-        dt_set = hist['data']
+        data_pack = []
 
-        for i in self.db_push_queue:
-            if (dt_set[-1][0]<i[0]):
-                print(i)
-                dt_set.append(i)
+        for val in hist:
+            data_pack.append(val['data'])
                 
-        return(dt_set)
+        return(data_pack)
     
 class NotificationAnnouncer:
 

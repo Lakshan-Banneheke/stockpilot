@@ -45,6 +45,11 @@ def delete_collection(db,cName): # data contains the required query
     coll = db[cName]
     return(coll.drop())
 
+def last_item(db,cName):
+    coll = db[cName]
+    result = coll.find_one({},sort=[( '_id', pymongo.DESCENDING )])
+    return([result]) 
+
 
 
 
@@ -88,6 +93,8 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
             result =  remove_many_from_collection(db,parameters[0],parameters[1])
         elif (type == "delete_collection"):
             result = delete_collection(db, parameters[0])
+        elif (type == 'find_last_entry'):
+            result = last_item(db,parameters[0])
         else:
             result = "DB Action not specified"
 

@@ -20,9 +20,9 @@ def listen(btc_name,interval):
 
     return flask.Response(stream(btc_name,interval), mimetype='text/event-stream')
 
-@CRYPTO_BP.route('/historical/<btc_name>/<interval>', methods=['GET'])
-def getHistorical(btc_name,interval):
-    klines = get_history(btc_name,interval)
+@CRYPTO_BP.route('/historical/<btc_name>/<interval>/<s_date>/<e_date>', methods=['GET'])
+def getHistorical(btc_name,interval,s_date,e_date):
+    klines = get_history(btc_name,interval,s_date,e_date)
     json_klines = json.dumps(klines)
     return json_klines
 
