@@ -100,7 +100,9 @@ Then when the real time data comes they are put in a queue and when the queue be
 
 End point reads the database first and then queue data is appended and returned as a json kline
 
-  [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here
+  [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here/start_date_in_milliseconds/end_date_in_milliseconds
+
+  >>>>>>>> note that      end date < data time period < start date
 
 Intervals are defined under the listening endpoints.
 

@@ -87,6 +87,7 @@ def initiate_historical_data_set():
         update_db_now(symbl,"30m",data_30m,time_30m)
         update_db_now(symbl,"1h",data_1h,time_1h)
         update_db_now(symbl,"1d",data_1d,time_1d)
+        
         print("History Set For:",symbl)
 
     
