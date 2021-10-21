@@ -31,6 +31,7 @@ Once all the required crypto are added will add them to a collection in database
   Here crypto_name is one from the symbols list mentioned above
   Here crypto_interval is one from the followings
           1m  15m   30m   1h    1d
+          5m  1h  1d
 
 ############################################################### Listening Endpoints Ends
 
@@ -124,6 +125,27 @@ Intervals are defined under the listening endpoints.
   [POST] localhost:5000/binance/add_crypto/new_crypto_name_comes_here          # Dont use this end point, there are some things to be added later
 
 ############################################################ General Endpoints Ends Here
+
+############################################################ Notification Endpoints starts Here
+
+  [GET]    localhost:/5000/notifications/listen_nots/open_price            # Use this to listen to the real time notifications on open open_price
+
+  Example returned
+
+  data: {'message':'successful','type': 'Over 5 percent incriment', 'symbol': 'BNBBTC', 'open price': '0.00874100', 'current peak price': 0.00812}
+
+  type can be over 5,25,50 or 75    or else 25,50,75 decriment
+
+  "current peak price" is the closing price of the last days kline for the relevent symbol
+
+
+
+  You can use the following endpoint to get all the notifications from the last 5 days
+
+    [GET]   localhost:5000/notifications/historical_nots/open_price
+
+
+############################################################ Notification Endpoints ends Here
 
 
 

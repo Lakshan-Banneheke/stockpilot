@@ -1,3 +1,6 @@
+import os
+
+import certifi
 import pymongo
 
 def create_collection(db,tName):
@@ -47,9 +50,9 @@ def delete_collection(db,cName): # data contains the required query
 
 def db_action(type,parameters,user_type):  # Can do all the db actions through this function
 
-    admin_url = 'mongodb+srv://SEPU01:User123@sepcluster.yjn4m.mongodb.net/test_sep?retryWrites=true&w=majority'
+    admin_url = os.environ['MONGO_URL_ADMIN']
 
-    general_url = 'mongodb+srv://SEPU02:general123@sepcluster.yjn4m.mongodb.net/test_sep?retryWrites=true&w=majority'
+    general_url = os.environ['MONGO_URL_GENERAL']
 
     dbName = 'StockPilot'
 
@@ -60,7 +63,7 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
     else:
         return("Error")
 
-    client = pymongo.MongoClient(url)
+    client = pymongo.MongoClient(url, tlsCAFile=certifi.where())
 
     db = client[dbName]
 
