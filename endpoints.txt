@@ -97,6 +97,7 @@ Can use this to get the historical data from the database.
   [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here/start_date_in_milliseconds/end_date_in_milliseconds
 
   >>>>>>>> note that      end date < data time period < start date
+  >>>>>>>> By default end date is 5 days back to the start date. Can alter the value at data_center reverse_date variable
 
 Intervals are defined under the listening endpoints.
 
