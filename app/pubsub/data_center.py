@@ -14,6 +14,8 @@ symbols = []
 
 notifications = []
 
+reverse_date = 5
+
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
 def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
@@ -23,7 +25,12 @@ def listen_socket(name,interval): # according to the user input neeeds to listen
     announcer = announcers[name][interval]
     return(announcer.listen())
 
-def get_history(symbl,interval,s_date,e_date):
+def get_history(symbl,interval,s_date):
+    if (s_date == "0"):
+        s_date = round(time() * 1000)
+        
+    e_date = int(s_date) - (reverse_date*24*60*60*1000)
+
     return(announcers[symbl][interval].get_historical_data(symbl,interval,int(s_date),int(e_date)))
 
 ############################################################################ Functions related to the live listening of Crypto data Ends
@@ -35,7 +42,7 @@ def listen_notifications():
 
 def add_notification(data):
     notifications.append(data)
-   
+
 def look_for_nots():
     while(True):
         if(len(notifications)>0):
