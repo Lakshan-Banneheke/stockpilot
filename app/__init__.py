@@ -23,7 +23,7 @@ def create_app():
         initiate_get_stream()
         initiate_pub_sub()
         scheduler.add_job(getStreamData)
-        scheduler.add_job(look_for_nots)
+        scheduler.add_job(look_for_nots,trigger='interval',seconds=10)
         scheduler.add_job(reboot_binance_connection)
         scheduler.start()
 

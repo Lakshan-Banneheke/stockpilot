@@ -48,7 +48,7 @@ class MessageAnnouncer:
                 data_center.add_notification({"message":"successful","type":"Over 50 percent incriment","symbol":sy,"open price":open_price,"current peak price":peak_price})
             elif(percent_price>25):
                 data_center.add_notification({"message":"successful","type":"Over 25 percent incriment","symbol":sy,"open price":open_price,"current peak price":peak_price})
-            elif(percent_price>5):
+            elif(percent_price>1):
                 data_center.add_notification({"message":"successful","type":"Over 5 percent incriment","symbol":sy,"open price":open_price,"current peak price":peak_price})
             elif(percent_price<(-25)):
                 data_center.add_notification({"message":"successful","type":"Over 25 percent decriment","symbol":sy,"open price":open_price,"current peak price":peak_price})
@@ -91,25 +91,25 @@ class MessageAnnouncer:
                 
         return(dt_set)
     
-class NotificationAnnouncer:
+# class NotificationAnnouncer:
 
-    def __init__(self):
-        self.listener_set = []
+#     def __init__(self):
+#         self.listener_set = []
 
-    def listen_nots(self):
-        qu = queue.Queue(maxsize=100)
-        self.listener_set.append(qu)
-        return (qu)
+#     def listen_nots(self):
+#         qu = queue.Queue(maxsize=100)
+#         self.listener_set.append(qu)
+#         return (qu)
 
-    def announce_nots(self, msg):
+#     def announce_nots(self, msg):
 
-        msg = format_sse(data=msg)
+#         msg = format_sse(data=msg)
 
-        for i in reversed(range(len(self.listener_set))):
-            try:
-                self.listener_set[i].put_nowait(msg)
-            except queue.Full:
-                del self.listener_set[i]
+#         for i in reversed(range(len(self.listener_set))):
+#             try:
+#                 self.listener_set[i].put_nowait(msg)
+#             except queue.Full:
+#                 del self.listener_set[i]
 
 def format_sse(data: str, event=None) -> str:
     msg = f'data: {data}\n\n'

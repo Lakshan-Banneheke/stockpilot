@@ -1,16 +1,17 @@
-from .ps_model import MessageAnnouncer, NotificationAnnouncer
+from .ps_model import MessageAnnouncer
 from binance.client import Client
 from db_access import db_action
 from time import time
-
+from firebase_config import sendPush
+import json
 
 announcers = {}
-
-notification_announcer = NotificationAnnouncer()
 
 symbols = []
 
 notifications = []
+
+app_tokens = []
 
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
@@ -28,18 +29,25 @@ def get_history(symbl,interval):
 
 ############################################################################ Functions related to the listening to notifications Starts
 
-def listen_notifications():
-    return(notification_announcer.listen_nots())
+def listen_notifications(token):
+    db_action("remove_many",[{"token":token},"tokens"],"admin")
+    state = db_action("insert_one",[{"token":token},"tokens"],"admin")
+    app_tokens.append(token)
+    if(state):
+        return("Successfully Registered for Notifications")
+    else:
+        return("Error in registering please retry")
 
 def add_notification(data):
     notifications.append(data)
-   
+
 def look_for_nots():
-    while(True):
-        if(len(notifications)>0):
-            notification_announcer.announce_nots(notifications[0])
-            db_action("insert_one",[{"time":int(time()*1000),"data":notifications[0]},"notifications"],"admin")
-            notifications.pop(0)
+    if(len(notifications)>0):
+        sendPush("New Notification",json.dumps(notifications[0]),app_tokens)
+        db_action("insert_one",[{"time":int(time()*1000),"data":notifications[0]},"notifications"],"admin")
+        print("Notifications Send")
+        notifications.pop(0)
+
         
 
 def historical_nots():
@@ -91,11 +99,18 @@ def initiate_in_memory():
 
     symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
 
+    token_set = db_action("read_many",[{},"tokens"],"admin")
+
+
     for symbl in symbl_set['data']:
 
         if (symbl not in symbols):
 
             symbols.append(symbl)
+
+    for data in token_set:
+
+        app_tokens.append(data['token'])
     
 
 
