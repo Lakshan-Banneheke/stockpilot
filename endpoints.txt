@@ -128,13 +128,15 @@ Intervals are defined under the listening endpoints.
 
 ############################################################ Notification Endpoints starts Here
 
-  [GET]    localhost:/5000/notifications/listen_nots/open_price            # Use this to listen to the real time notifications on open open_price
+  [POST]    localhost:/5000/notifications/listen_nots/open_price            # Use this to listen to the real time notifications on open open_price
+
+            POST request data -----> {"token":"token value generated from the front end"}
 
   Example returned
 
-  data: {'message':'successful','type': 'Over 5 percent incriment', 'symbol': 'BNBBTC', 'open price': '0.00874100', 'current peak price': 0.00812}
-
-  type can be over 5,25,50 or 75    or else 25,50,75 decriment
+  {"message": "successful", "type": "Over 5 percent incriment", "symbol": "LTCUSDT", "open price": "192.60000000", "current peak price": 183.8}
+  
+  type can be over 5,25,50 or 75 increment   or else 25,50,75 decriment
 
   "current peak price" is the closing price of the last days kline for the relevent symbol
 
