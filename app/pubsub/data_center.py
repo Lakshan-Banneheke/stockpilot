@@ -26,7 +26,7 @@ def listen_socket(name,interval): # according to the user input neeeds to listen
     return(announcer.listen())
 
 def get_history(symbl,interval,s_date):
-    if (s_date == "0"):
+    if (s_date == "0000"):
         s_date = round(time() * 1000)
         
     e_date = int(s_date) - (reverse_date*24*60*60*1000)
@@ -125,10 +125,10 @@ def update_db_now(symbl,period,data,time_frame):
 
     new_data = []
 
-    if (time_frame!="5 day ago UTC"):
+    if (time_frame!="25 day ago UTC"):
         data.pop(0)
     else:
-        print("No collection Exists creating a new collection with 5 days of data for :" + coll_name)
+        print("No collection Exists creating a new collection with 25 days of data for :" + coll_name)
 
     if (len(data)>0):
 
@@ -148,7 +148,7 @@ def get_last_time(symbl,period):
     result = db_action("find_last_entry",[coll_name],"admin")
 
     if (result==[None]):
-        return("5 day ago UTC")
+        return("25 day ago UTC")
     else:
         return(int(result[0]['time']))
         
