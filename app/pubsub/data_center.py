@@ -1,8 +1,7 @@
-from .ps_model import MessageAnnouncer, NotificationAnnouncer
+from .ps_model import MessageAnnouncer
 from binance.client import Client
 from db_access import db_action
 from time import time
-from firebase_config import sendPush
 announcers = {}
 
 client = Client()
@@ -77,7 +76,7 @@ def initiate_pub_sub():
 
     initiate_in_memory()
     initiate_publisher_set()
-    initiate_historical_data_set()
+    # initiate_historical_data_set()
 
     print("PubSub Initiated",symbols)
 
