@@ -2,17 +2,12 @@ from .ps_model import MessageAnnouncer, NotificationAnnouncer
 from binance.client import Client
 from db_access import db_action
 from time import time
-
-
+from firebase_config import sendPush
 announcers = {}
-
-notification_announcer = NotificationAnnouncer()
 
 client = Client()
 
 symbols = []
-
-notifications = []
 
 reverse_date = 5
 
@@ -34,38 +29,6 @@ def get_history(symbl,interval,s_date):
     return(announcers[symbl][interval].get_historical_data(symbl,interval,int(s_date),int(e_date)))
 
 ############################################################################ Functions related to the live listening of Crypto data Ends
-
-############################################################################ Functions related to the listening to notifications Starts
-
-def listen_notifications():
-    return(notification_announcer.listen_nots())
-
-def add_notification(data):
-    notifications.append(data)
-
-def look_for_nots():
-    while(True):
-        if(len(notifications)>0):
-            notification_announcer.announce_nots(notifications[0])
-            db_action("insert_one",[{"time":int(time()*1000),"data":notifications[0]},"notifications"],"admin")
-            notifications.pop(0)
-        
-
-def historical_nots():
-    time_filter = int(time()*1000 - (5*24*60*60*1000))
-    data = db_action("read_many",[{"time": {"$gte":time_filter}},"notifications"],"admin")
-    opt = []
-    for dt in data:
-        opt.append([dt['time'],dt['data']])
-
-    for dt in notifications:
-        opt.append([int(time()*1000),dt])
-
-    return({"last 5 days notifications":opt})
-
-
-
-############################################################################ Functions related to the listening to notifications Ends
 
 ############################################################################ Initiation Logic Starts
 
