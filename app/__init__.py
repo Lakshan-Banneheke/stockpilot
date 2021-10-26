@@ -3,7 +3,6 @@ from app.crypto import CRYPTO_BP
 from app.home import HOME_BP
 from app.pubsub.notifications import look_for_nots
 from app.stock import STOCK_BP
-from app.ta import TA_BP
 from app.user import USER_BP
 from app.acessWatchList import WLIST_BP
 from app.notifications import NOTIFICATIONS_BP
@@ -31,7 +30,6 @@ def create_app():
     APP.register_blueprint(HOME_BP, url_prefix='/')
     APP.register_blueprint(CRYPTO_BP, url_prefix='/binance/')
     APP.register_blueprint(USER_BP, url_prefix='/user/')
-    APP.register_blueprint(TA_BP, url_prefix='/ta/')
     APP.register_blueprint(WLIST_BP, url_prefix='/watchlist/')
     APP.register_blueprint(STOCK_BP, url_prefix='/stock/')
     APP.register_blueprint(NOTIFICATIONS_BP, url_prefix='/notifications/')
