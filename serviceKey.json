@@ -1,0 +1,12 @@
+  {
+    "type": "service_account",
+    "project_id": "stockpilot-notifications",
+    "private_key_id": "50dedd17fac58b703b1e9b660a5157152baecf35",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCw400KGmKvF6Zy\nLuCK1xNJV2WCxU5xgPHxc71ZR321uXjEWYPKWwCTSLkq1ghgHrjRNzdNDCX4e5rJ\nMyONB5UHtNHI47nxHXR9Eg4DSurwPMbbjdNOhNaQlxdcHRXMrdUIMZgtEvGjwZos\nXKJ1tDSR0im75HsMH4w/gaZk4AcEghYDrbjwso09iH1hoWyZ/11JVGRE9UYvgfVB\npI51a7TOzgygfz0bFaotyu+1SKu0xiJF4LzGQYru+XAsrHJriM+hCVRRYOc3uamK\nQBMogtMRsQfWT+kSs5b+gxirkdw5QdaoI2BwlD12vJgCdyBI32aPn3NMc7iAe4+E\nj3M5b7Y1AgMBAAECggEAVM3k1X8o6MDx77RBus66VGMuK6/kl842MIhIs1DvF/y/\nxYMVCCLw96vZ+ot6oHqaKNPME4hLfAHmh6eY17hW3sb1/NYRA2QXwQ6y4Sk90ceR\nnxkzwWU2aUPG00aueN6uT6tXReTbLKNZAwO2b6/htDeKAqbbx0gouRmzaJFvS902\nCEIVPJNeKLfPc71dWGxzmjrXn71ZQXQ2Ew16xrQOwxszVNkP5lyvZ/LcQt1SMdzQ\nXmmPkYO24Ko01AJmhtgaskUdzgA2qG0HHSQteRmE8HOgxe8Ci2oPQPZhSzDwty5o\nzRAK++kvbVCPPV85ClezjUz23wlO4Br9J+FaMqTE0QKBgQDa67H13bGxLpgm4sJM\nCxWbf81raBX5RUCGpB8mGTzvVW4GN1/0n3J2DVH+rRBRrDD5438tzkAhditW926h\n52fO8N0gsLZKwYjdfDro0405ViXk5fxvt76/5W6ZTmVsou54ASIa29bq+iOXOD76\nPJ89ffCnD2yZ3ULNBNuhANOs8wKBgQDO2RUa+3fLHEjzW7tud9MCKiOF1EKpUcjI\n/s7aKlQTZ8KXkbodkNETsaVDX/EAg3UrB8u5DQhJEto+HX03IlXaLeBlI9w1eEdr\nNclfaWbm29YVysAxV7mZ5o0Y6ycwhfCOCyY6sjM9pBCr8MliwGfwMKwfvFu1psJI\nQqO8rb+6NwKBgH7vixB0q0OBMNfbQ62z/6NaR1Gv2I3gibmIEEeW+q4LavBPy2Ob\n0FKDBrgUwRGaNguuzV9R5/1+90JF1fAqrRZgstbxn8FY1nMWRVIa2BgWy4IdmHFu\nqTu7XJWnz0deccdDYPMR5Vv6DgjwpBOUcwDEtXUojF/q24DlADQqtpHhAoGASlqS\nUZ6vUx2Zw5Dn8S+1dAO9vS+tvrudV1Lw/E9W5ZrYwi8qHdKetVuYMn3cXfjjN1KY\nEq7ymYHjXYywJA99mO4AyZp4X+galBlDh76VtMq1TCQTrikAmKfddGWjMrgS3px3\nY4YHEVNWgtgNLChJtHdqiAXnWYbWM69wuDQkxUUCgYEApKV/kKAGvDxyYCdCgWcT\ntqouELdAsa20xckRzGRavmGuT+e2LVrzaLE+Mndz5pXz+2RGevXKxSCB1y1pcrwu\n7wfBqxq1yq6E3rifxD2fv3ksqKWUvol2t+sv6OvWDMVA4xokf89ZLsctt/xHWLys\n6zqkvAnhuxoq0/enJY7RM+g=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-haaba@stockpilot-notifications.iam.gserviceaccount.com",
+    "client_id": "107438343116550050771",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-haaba%40stockpilot-notifications.iam.gserviceaccount.com"
+  }
