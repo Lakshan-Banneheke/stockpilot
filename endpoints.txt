@@ -88,7 +88,7 @@ EMA = localhost:5000/ta/ema/type(stock or crypto)/stockOrCryptoName/interval
 WMA = localhost:5000/ta/wma/type(stock or crypto)/stockOrCryptoName/interval
 OBV = localhost:5000/ta/obv/type(stock or crypto)/stockOrCryptoName/interval
 
-############################################################ TA end points ends
+############################################################ TA end points ends here
 
 ############################################################ Historical Crypto Data End point starts
 
