@@ -8,7 +8,7 @@ client = Client()
 
 symbols = []
 
-reverse_date = 5
+reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":25}
 
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
@@ -23,7 +23,7 @@ def get_history(symbl,interval,s_date):
     if (s_date == "0000"):
         s_date = round(time() * 1000)
         
-    e_date = int(s_date) - (reverse_date*24*60*60*1000)
+    e_date = int(s_date) - (reverse_date[interval]*24*60*60*1000)
 
     return(announcers[symbl][interval].get_historical_data(symbl,interval,int(s_date),int(e_date)))
 
@@ -76,7 +76,7 @@ def initiate_pub_sub():
 
     initiate_in_memory()
     initiate_publisher_set()
-    # initiate_historical_data_set()
+    initiate_historical_data_set()
 
     print("PubSub Initiated",symbols)
 
