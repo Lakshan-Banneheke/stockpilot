@@ -43,7 +43,7 @@ def add_notification(data):
 
 def look_for_nots():
     if len(notifications) > 0:
-        sendPush("New Notification", json.dumps(notifications[0]), app_tokens)
+        sendPush(notifications[0], notifications[0]['symbol'])
         db_action("insert_one", [{"time": int(time() * 1000), "data": notifications[0]}, "notifications"], "admin")
         print("Notifications Send")
         notifications.pop(0)
