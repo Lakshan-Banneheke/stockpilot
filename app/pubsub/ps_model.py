@@ -80,7 +80,7 @@ class MessageAnnouncer:
 
         coll_name = symbl + "_" + interval
 
-        hist = db_action("read_many",[{"time": {"$gte":end_data, "$lte":start_date}},coll_name],"admin")
+        hist = db_action("read_many",[{"time": {"$gte":end_data, "$lt":start_date}},coll_name],"admin")
 
         data_pack = []
 
