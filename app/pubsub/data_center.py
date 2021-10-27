@@ -8,7 +8,7 @@ client = Client()
 
 symbols = []
 
-reverse_date = {"1m":1,"15m":2,"30m":2,"1h":3,"1d":10}
+reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":25}
 
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
