@@ -78,10 +78,10 @@ class MessageAnnouncer:
                     {"message": "successful", "type": "Over 75 percent decriment", "symbol": sy,
                      "open price": open_price, "current peak price": peak_price})
                 #############TESTTTTTTTTTT######################
-            else:
-                notifications.add_notification(
-                    {"message": "successful", "type": "Test notification", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
+            # else:
+            #     notifications.add_notification(
+            #         {"message": "successful", "type": "Test notification", "symbol": sy,
+            #          "open price": open_price, "current peak price": peak_price})
 
         if (state == True):
             check = db_action("read_one", [{"time": deocrated_msg_history[0]}, coll_name], "admin")
