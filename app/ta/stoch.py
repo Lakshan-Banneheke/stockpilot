@@ -4,8 +4,8 @@ import talib
 from app.ta.utils import get_high_low_close_values
 
 
-def generate_stoch(type_name, name, interval):
-    high_prices, low_prices, close_prices, close_times = get_high_low_close_values(type_name, name, interval)
+def generate_stoch(type_name, name, interval, s_date):
+    high_prices, low_prices, close_prices, close_times = get_high_low_close_values(type_name, name, interval, s_date)
     slowk, slowd = talib.STOCH(high_prices, low_prices, close_prices)
     slowk_dict = dict(zip(close_times[8:], slowk[8:]))
     slowd_dict = dict(zip(close_times[8:], slowd[8:]))
