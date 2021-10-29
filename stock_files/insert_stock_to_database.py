@@ -10,9 +10,9 @@ os.environ["MONGO_URL_ADMIN"] = "mongodb+srv://SEPU01:User123@sepcluster.yjn4m.m
 def insert_1day_to_db(list):
     for i in list:
         file_name = i + '.us.txt'
+        col = i + "_1d"
         path = 'G:\Projects\stockpilot-backend\stock_files\\1_day\\' + file_name
         file = open(path, "r")
-        ls = []
         a = False
         for x in file:
             if a:
@@ -21,21 +21,21 @@ def insert_1day_to_db(list):
                 unix_timestamp = int(datetime(int(year), int(month), int(day)).replace(tzinfo=timezone.utc).timestamp()*1000)
                 line[0] = unix_timestamp
                 line[6] = unix_timestamp
-                ls.append(line)
+                data_obj = {
+                    "time": unix_timestamp,
+                    "data": line
+                }
+                db_action("insert_one", [data_obj, col], "admin")
             a = True
         file.close()
-        data_obj = {
-            "type": "data_1d",
-            "data": ls
-        }
-        db_action("insert_one", [data_obj, i], "admin")
+
 
 def insert_1hour_to_db(list):
     for i in list:
         file_name = i + '.us.txt'
+        col = i + "_1h"
         path = 'G:\Projects\stockpilot-backend\stock_files\\1_hour\\' + file_name
         file = open(path, "r")
-        ls = []
         a = False
         for x in file:
             if a:
@@ -45,22 +45,21 @@ def insert_1hour_to_db(list):
                 line = line[1:]
                 line[0] = unix_timestamp
                 line[6] = unix_timestamp
-                ls.append(line)
+                data_obj = {
+                    "time": unix_timestamp,
+                    "data": line
+                }
+                db_action("insert_one", [data_obj, col], "admin")
             a = True
         file.close()
-        data_obj = {
-            "type": 'data_1h',
-            "data": ls
-        }
 
-        db_action("insert_one", [data_obj, i], "admin")
 
 def insert_5min_to_db(list):
     for i in list:
         file_name = i + '.us.txt'
+        col = i + "_5min"
         path = 'G:\Projects\stockpilot-backend\stock_files\\5_min\\' + file_name
         file = open(path, "r")
-        ls = []
         a = False
         for x in file:
             if a:
@@ -70,14 +69,14 @@ def insert_5min_to_db(list):
                 line = line[1:]
                 line[0] = unix_timestamp
                 line[6] = unix_timestamp
-                ls.append(line)
+                data_obj = {
+                    "time": unix_timestamp,
+                    "data": line
+                }
+                db_action("insert_one", [data_obj, col], "admin")
             a = True
         file.close()
-        data_obj = {
-            "type": 'data_5m',
-            "data": ls
-        }
-        db_action("insert_one", [data_obj, i], "admin")
+
 
 def delete(ls):
     for i in ls:
