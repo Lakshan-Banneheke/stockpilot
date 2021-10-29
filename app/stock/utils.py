@@ -10,4 +10,11 @@ def get_symbol_set():
 def get_historical_stock_data(symbl, interval):
     interval_modified = "data_" + interval
     hist = db_action("read_one", [{"type": interval_modified}, symbl], "admin")
-    return hist['data']
+    
+    if (hist):
+        return hist['data']
+    else:
+        return ("Error in arguements")
+
+
+

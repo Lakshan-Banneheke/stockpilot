@@ -51,13 +51,11 @@ def look_for_nots():
 
 def historical_nots():
     time_filter = int(time() * 1000 - (5 * 24 * 60 * 60 * 1000))
-    data = db_action("read_many", [{"time": {"$gte": time_filter}}, "notifications"], "admin")
+    data = db_action("read_many", [{"time": {"$gte": time_filter}}, "notifications"], "admin")[-5:]
     opt = []
     for dt in data:
         opt.append([dt['time'], dt['data']])
 
-    for dt in notifications:
-        opt.append([int(time() * 1000), dt])
 
     return {"last 5 days notifications": opt}
 

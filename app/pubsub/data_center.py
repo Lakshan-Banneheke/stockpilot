@@ -10,6 +10,8 @@ symbols = []
 
 reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":25}
 
+period_set = ["1m","15m","3om","1h","1d"]
+
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
 def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
@@ -105,14 +107,20 @@ def update_db_now(symbl,period,data,time_frame):
 
 def get_last_time(symbl,period):
 
-    coll_name = symbl + "_" + period
+    if (period in period_set) and (symbl in symbols):
 
-    result = db_action("find_last_entry",[coll_name],"admin")
+        coll_name = symbl + "_" + period
 
-    if (result==[None]):
-        return("25 day ago UTC")
+        result = db_action("find_last_entry",[coll_name],"admin")
+
+        if (result==[None]):
+            return("25 day ago UTC")
+        else:
+            return(int(result[0]['time']))
+    
     else:
-        return(int(result[0]['time']))
+
+        return("Invalid Period or Symbol")
         
 
 
