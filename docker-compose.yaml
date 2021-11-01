@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   web:
-    image: lakshanbanneheke/stockpilot:latest
+    build: .
     container_name: backend
     environment:
       - FLASK_APP=app.py
