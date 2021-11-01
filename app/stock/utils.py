@@ -11,12 +11,18 @@ def get_symbol_set():
 
 
 def get_historical_stock_data(symbl, interval, s_date):
+    coll_name = symbl + "_" + interval
+    last_item = db_action("find_last_entry", [coll_name], "admin")
+
     if (s_date == "0000"):
-        s_date = round(time() * 1000)
+        s_date = int(last_item[0]['time'])
 
     e_date = int(s_date) - (reverse_date[interval] * 24 * 60 * 60 * 1000)
 
-    coll_name = symbl + "_" + interval
+    print(s_date)
+    print(e_date)
+
+
 
     hist = db_action("read_many", [{"time": {"$gte": int(e_date), "$lt": int(s_date)}}, coll_name], "admin")
 
