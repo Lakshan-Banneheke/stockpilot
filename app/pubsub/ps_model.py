@@ -112,7 +112,7 @@ class MessageAnnouncer:
                 time_stamps.append(val['data'][0])
                 data_pack.append(val['data'])
                 
-        return(data_pack)
+        return(data_pack[-10:])
 
 class NotificationAnnouncer:
 
