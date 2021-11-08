@@ -25,7 +25,6 @@ def create_app():
         initiate_pub_sub()
         scheduler.add_job(getStreamData)
         scheduler.add_job(look_for_nots,trigger='interval',seconds=10)
-        scheduler.add_job(reboot_binance_connection)
         scheduler.start()
 
     APP.register_blueprint(HOME_BP, url_prefix='/')

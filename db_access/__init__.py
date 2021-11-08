@@ -55,56 +55,57 @@ def last_item(db,cName):
 
 def db_action(type,parameters,user_type):  # Can do all the db actions through this function
 
-    admin_url = os.environ['MONGO_URL_ADMIN']
+    try:
 
-    general_url = os.environ['MONGO_URL_GENERAL']
+        admin_url = os.environ['MONGO_URL_ADMIN']
 
-    dbName = 'SPilot'
+        general_url = os.environ['MONGO_URL_GENERAL']
 
-    if (user_type=="admin"):
-        url = admin_url
-    elif(user_type=="general"):
-        url = general_url
-    else:
-        return("Error")
+        dbName = 'SPilot'
 
-    client = pymongo.MongoClient(url, tlsCAFile=certifi.where())
-
-    db = client[dbName]
-
-    if(True):
-        if (type=="create_collection"):
-            result = create_collection(db,parameters)
-        elif(type=="insert_one"):
-            result = insert_one_to_collection(db,parameters[0],parameters[1])
-        elif(type=="insert_many"):
-            result = insert_many_to_collection(db,parameters[0],parameters[1])
-        elif(type=="read_one"):
-            result = read_one_from_collection(db,parameters[0],parameters[1])
-        elif(type=="read_many"):
-            result = read_many_from_collection(db,parameters[0],parameters[1])
-        elif(type=="update_one"):
-            result = update_one_document(db,parameters[0],parameters[1],parameters[2])
-        elif(type=="count"):
-            result = count_document(db,parameters[0],parameters[1])
-        elif(type=="remove_one"):
-            result = remove_one_from_collection(db,parameters[0],parameters[1])
-        elif(type=="remove_many"):
-            result =  remove_many_from_collection(db,parameters[0],parameters[1])
-        elif (type == "delete_collection"):
-            result = delete_collection(db, parameters[0])
-        elif (type == 'find_last_entry'):
-            result = last_item(db,parameters[0])
+        if (user_type=="admin"):
+            url = admin_url
+        elif(user_type=="general"):
+            url = general_url
         else:
-            result = "DB Action not specified"
+            return("Error")
 
-        return(result)
-    # except ValueError:
-    #     return("Unexpected Value Error")
-    # except:
-    #     return("Unexpected Error Has occured")
+        client = pymongo.MongoClient(url, tlsCAFile=certifi.where())
 
-        
+        db = client[dbName]
+
+        if(True):
+            if (type=="create_collection"):
+                result = create_collection(db,parameters)
+            elif(type=="insert_one"):
+                result = insert_one_to_collection(db,parameters[0],parameters[1])
+            elif(type=="insert_many"):
+                result = insert_many_to_collection(db,parameters[0],parameters[1])
+            elif(type=="read_one"):
+                result = read_one_from_collection(db,parameters[0],parameters[1])
+            elif(type=="read_many"):
+                result = read_many_from_collection(db,parameters[0],parameters[1])
+            elif(type=="update_one"):
+                result = update_one_document(db,parameters[0],parameters[1],parameters[2])
+            elif(type=="count"):
+                result = count_document(db,parameters[0],parameters[1])
+            elif(type=="remove_one"):
+                result = remove_one_from_collection(db,parameters[0],parameters[1])
+            elif(type=="remove_many"):
+                result =  remove_many_from_collection(db,parameters[0],parameters[1])
+            elif (type == "delete_collection"):
+                result = delete_collection(db, parameters[0])
+            elif (type == 'find_last_entry'):
+                result = last_item(db,parameters[0])
+            else:
+                result = "DB Action not specified"
+
+            return(result)
+
+    except Exception as e:
+
+        print("DB Error occured Check Again")
+  
 
     
     
