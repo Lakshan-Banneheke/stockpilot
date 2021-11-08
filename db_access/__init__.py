@@ -104,7 +104,7 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
 
     except Exception as e:
 
-        print("DB Error occured Check Again")
+        return("Error")
   
 
     

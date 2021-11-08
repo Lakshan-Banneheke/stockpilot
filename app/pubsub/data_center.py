@@ -64,11 +64,13 @@ def initiate_in_memory():
 
     symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
 
-    for symbl in symbl_set['data']:
+    if symbl_set != "Error":
 
-        if (symbl not in symbols):
+        for symbl in symbl_set['data']:
 
-            symbols.append(symbl)
+            if (symbl not in symbols):
+
+                symbols.append(symbl)
     
 
 
@@ -109,10 +111,16 @@ def get_last_time(symbl,period):
 
     result = db_action("find_last_entry",[coll_name],"admin")
 
-    if (result==[None]):
-        return("25 day ago UTC")
+    if result != "Error":
+
+        if (result==[None]):
+            return("25 day ago UTC")
+        else:
+            return(int(result[0]['time']))
+
     else:
-        return(int(result[0]['time']))
+
+        print("Error in DB")
         
 
 
