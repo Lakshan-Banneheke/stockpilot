@@ -34,7 +34,6 @@ def getStreamData():
                     start_to_listen(twm,smbl)
 
                 while (True):
-                    print("came here")
                     if (not checkInternetSocket()):
                         twm.stop()
                         print("Internet Not working")
