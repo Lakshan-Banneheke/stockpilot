@@ -1,5 +1,6 @@
-from time import time
+from time import time as tm
 import json
+import time
 
 from flask import make_response, jsonify
 
@@ -42,15 +43,19 @@ def add_notification(data):
 
 
 def look_for_nots():
-    if len(notifications) > 0:
-        sendPush(notifications[0], notifications[0]['symbol'])
-        db_action("insert_one", [{"time": int(time() * 1000), "data": notifications[0]}, "notifications"], "admin")
-        print("Notifications Send")
-        notifications.pop(0)
+    while(True):
+        if len(notifications) > 0:
+            sendPush(notifications[0], notifications[0]['symbol'])
+            db_action("insert_one", [{"time": int(tm() * 1000), "data": notifications[0]}, "notifications"], "admin")
+            print("Notifications Send")
+            notifications.pop(0)
+        else:
+            time.sleep(5)
+        
 
 
 def historical_nots():
-    time_filter = int(time() * 1000 - (5 * 24 * 60 * 60 * 1000))
+    time_filter = int(tm() * 1000 - (5 * 24 * 60 * 60 * 1000))
     data = db_action("read_many", [{"time": {"$gte": time_filter}}, "notifications"], "admin")
     opt = []
     for dt in data:

@@ -2,6 +2,7 @@ from db_access import db_action
 import json
 import queue
 from . import notifications
+from . import db_feed
 from binance.client import Client
 
 
@@ -12,7 +13,7 @@ class MessageAnnouncer:
         self.client = Client()
 
     def listen(self):
-        q = queue.Queue(maxsize=1000)
+        q = queue.Queue(maxsize=20)
         self.listeners.append(q)
         return q
 
@@ -77,24 +78,12 @@ class MessageAnnouncer:
                 notifications.add_notification(
                     {"message": "successful", "type": "Over 75 percent decriment", "symbol": sy,
                      "open price": open_price, "current peak price": peak_price})
-                #############TESTTTTTTTTTT######################
-            # else:
-            #     notifications.add_notification(
-            #         {"message": "successful", "type": "Test notification", "symbol": sy,
-            #          "open price": open_price, "current peak price": peak_price})
+                
 
         if (state == True):
-            check = db_action("read_one", [{"time": deocrated_msg_history[0]}, coll_name], "admin")
-            if check != "Error":
-                if (check):
-                    req_doc = {"time": deocrated_msg_history[0]}
-                    new_data = {"$set": {"data": deocrated_msg_history}}
-
-                    db_action("update_one", [req_doc, new_data, coll_name], "admin")
-                    print("db updated for", sy, typ, "due interval closing")
-                else:
-                    db_action("insert_one", [{"time": deocrated_msg_history[0], "data": deocrated_msg_history}, coll_name],"admin")
-                    print("db updated for", sy, typ, "due interval closing")
+            time_stamp = deocrated_msg_history[0]
+            db_feed.add_to_db_feed([time_stamp,coll_name,deocrated_msg_history])
+            
 
     def get_historical_data(self, symbl, interval, start_date, end_data):
 
