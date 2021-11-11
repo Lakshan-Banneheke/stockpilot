@@ -14,18 +14,37 @@ symbols = []
 
 def getStreamData():
 
-    if (checkInternetSocket()):
+        status = True
 
-        twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
+        while (True):
 
-        twm.start()
+            if (checkInternetSocket()):
 
-        print("Publisher started working !!!")
+                status = True
 
-        for smbl in symbols:
-            start_to_listen(twm,smbl)
+                print("Internet Connection available for Binance Connection !!!")
 
-        # twm.join()
+                twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
+
+                twm.start()
+
+                print("Publisher started working !!!")
+
+                for smbl in symbols:
+                    start_to_listen(twm,smbl)
+
+                while (True):
+                    if (not checkInternetSocket()):
+                        twm.stop()
+                        print("Internet Not working")
+                        break
+            else:
+                if (status):
+                    status = False
+                    print("waiting for reconnection")
+
+        
+
 
 
 def start_to_listen(twm, symbl):
@@ -68,21 +87,21 @@ def checkInternetSocket(host="8.8.8.8", port=53, timeout=3):
     except socket.error as ex:
         return(False)
 
-def reboot_binance_connection():
+# def reboot_binance_connection():
 
-    while (True):
+#     while (True):
 
-        reboot = False
+#         reboot = False
 
-        while (not checkInternetSocket()):
-            if (not reboot):
-                reboot = True
-                print("Internet Connection Not working Please Recconect :(")
-            time.sleep(5)
+#         while (not checkInternetSocket()):
+#             if (not reboot):
+#                 reboot = True
+#                 print("Internet Connection Not working Please Recconect :(")
+#             time.sleep(5)
 
-        if (reboot):
-            print("Internet Connection rebooted")
-            getStreamData()
+#         if (reboot):
+#             print("Internet Connection rebooted")
+#             getStreamData()
             
         
 
