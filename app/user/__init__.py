@@ -110,4 +110,33 @@ def get_test(current_user):
     return make_response(jsonify({'message': 'OK'}), 200)
 
 
+# Upload profile picture
+@USER_BP.route('/add_profile_image', methods=['POST'])
+@token_required
+def add_image():
+    data = json.loads(request.data, strict=False)
+    email = data['email']
+    file = data['file']
+
+    if (db_action("read_one",[{"email":email},"users"],"admin")):
+        result = db_action("insert_one",[{"user":email,"profile_pic":file},"profile_image"],"admin")
+        if (result):
+            return("Successfully updated")
+        else:
+            return("Error Check Again")
+    else:
+        return("No Such User Defined")
+
+@USER_BP.route('/get_profile_image/<email>', methods=['GET'])
+@token_required
+def get_image(email):
+
+    if (db_action("read_one",[{"email":email},"users"],"admin")):
+        result = db_action("read_one",[{"user":email},"profile_image"],"admin")
+        if (result):
+            return({"image":result['profile_pic']})
+        else:
+            return("Error")
+    else:
+        return("No Such User Defined")
 

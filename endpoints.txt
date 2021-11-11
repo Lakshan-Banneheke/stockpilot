@@ -74,6 +74,20 @@ To access the watch list of a user use the following end points
 Login = localhost:5000/user/login
 Register = localhost:5000/user/register
 
+> To add and view the profile photo of the user
+
+  [POST] localhost:5000/user/add_profile_image
+
+  In the data section include the following json file
+
+  {
+    "email" : "bg@gmail.com",
+    "file" : "Add the base64 encoded image string here"}
+  }
+
+
+  [GET] localhost:5000/user/get_profile_image/<Add the User Email here>
+
 ############################################################ User end points ends
 
 ############################################################ TA end points

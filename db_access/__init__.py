@@ -2,6 +2,8 @@ import os
 
 import certifi
 import pymongo
+# import bson
+# import pickle
 
 def create_collection(db,tName):
     coll = db[tName]
@@ -49,6 +51,15 @@ def last_item(db,cName):
     coll = db[cName]
     result = coll.find_one({},sort=[( '_id', pymongo.DESCENDING )])
     return([result]) 
+
+# def insert_img(db,data,cName):
+#     coll = db[cName]
+#     return(coll.insert_one({"user": data[0], "binary_field": bson.Binary(pickle.dumps(data[1]))}))
+
+# def read_img(db,data,cName):
+#     coll = db[cName]
+#     record = coll.find_one({"user":data})
+#     return(pickle.loads(record["binary_field"]))
 
 
 
@@ -129,4 +140,22 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
 # print(db_action("insert_many",[[{"id":23,"val":1},{"id":34,"val":4},{"id":67,"val":3}],"test02"],"admin"))
 
 
+# file = "/Users/meelanbandara/Documents/GitHub/stockpilot-backend/db_access/test_mongo_photo.jpg"
 
+# #Open the image in read-only format.
+# with open(file, 'rb') as f:
+#     contents = f.read()
+    
+# print(contents)
+
+
+# print(db_action("insert_image",[["test_user",contents],"profile_image"],"admin"))
+
+# print(db_action("read_image",["test_user","profile_image"],"admin"))
+
+    # req_doc = {"time": deocrated_msg_history[0]}
+    #             new_data = {"$set": {"data": deocrated_msg_history}}
+
+    #             db_action("update_one", [req_doc, new_data, coll_name], "admin")
+
+# print(db_action("update_one",[{"user":"test_user"},{"$set": {"check_add":"tested"}},"profile_image"],"admin"))
