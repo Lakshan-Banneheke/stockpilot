@@ -10,22 +10,26 @@ symbols = []
 
 reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":25}
 
+period_set = ["1m","15m","30m","1h","1d"]
+
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
 def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
     announcers[name][interval].announce(raw_data)
 
+
 def listen_socket(name,interval): # according to the user input neeeds to listen to the relevent announcer instance
     announcer = announcers[name][interval]
     return(announcer.listen())
 
+
 def get_history(symbl,interval,s_date):
+
     if (s_date == "0000"):
         s_date = round(time() * 1000)
-        
     e_date = int(s_date) - (reverse_date[interval]*24*60*60*1000)
-
     return(announcers[symbl][interval].get_historical_data(symbl,interval,int(s_date),int(e_date)))
+    
 
 ############################################################################ Functions related to the live listening of Crypto data Ends
 
@@ -107,20 +111,27 @@ def update_db_now(symbl,period,data,time_frame):
 
 def get_last_time(symbl,period):
 
-    coll_name = symbl + "_" + period
+    if (period in period_set) and (symbl in symbols):
 
-    result = db_action("find_last_entry",[coll_name],"admin")
+        coll_name = symbl + "_" + period
 
-    if result != "Error":
+        result = db_action("find_last_entry",[coll_name],"admin")
 
         if (result==[None]):
             return("25 day ago UTC")
         else:
             return(int(result[0]['time']))
-
+    
     else:
 
-        print("Error in DB")
+        return("Invalid Period or Symbol")
+
+def validity_check(name,interval):
+    if name in symbols and interval in period_set:
+        return(True)
+    else:
+        return(False)
+
         
 
 
