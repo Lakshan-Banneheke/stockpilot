@@ -62,7 +62,7 @@ def historical_nots():
         opt.append([dt['time'], dt['data']])
 
 
-    return {"last 5 days notifications": opt}
+    return {"last 5 days notifications": opt[0:10]}
 
 
 
