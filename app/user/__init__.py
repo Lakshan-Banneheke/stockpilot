@@ -50,10 +50,10 @@ def login():
 
     user_data = db_action("read_one", [{"email": user['email']}, "users"], "admin");
     if not user_data:
-        return make_response(jsonify({'message': 'Wrong Username or Password'}), 200)
+        return make_response(jsonify({'message': 'Wrong Email or Password'}), 200)
 
     if not check_password_hash(user_data['password'], user['password']):
-        return make_response(jsonify({'message': 'Wrong Username or Password'}), 200)
+        return make_response(jsonify({'message': 'Wrong Email or Password'}), 200)
 
     else:
         try:
