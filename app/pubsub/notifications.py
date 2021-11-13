@@ -62,7 +62,11 @@ def historical_nots():
         opt.append([dt['time'], dt['data']])
 
 
+<<<<<<< Updated upstream
     return {"last 5 days notifications": opt[0:10]}
+=======
+    return {"last 5 days notifications": opt[0:20]}
+>>>>>>> Stashed changes
 
 
 
