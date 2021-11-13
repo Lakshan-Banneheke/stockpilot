@@ -1,3 +1,5 @@
+from aiohttp.client import request
+from binance import exceptions
 from db_access import db_action
 import json
 import queue
@@ -10,7 +12,10 @@ class MessageAnnouncer:
 
     def __init__(self):
         self.listeners = []
-        self.client = Client()
+        try:
+            self.client = Client()
+        except Exception as e:
+            print("check network")
 
     def listen(self):
         q = queue.Queue(maxsize=20)
@@ -43,42 +48,48 @@ class MessageAnnouncer:
             except queue.Full:
                 del self.listeners[i]
 
-        if (typ == "data_1m" and state == True):
+        try:
 
-            data = self.client.get_historical_klines(sy, Client.KLINE_INTERVAL_1DAY, "1 day ago UTC")
+            if (typ == "data_1m" and state == True):
 
-            peak_price = float(data[0][1])
+                data = self.client.get_historical_klines(sy, Client.KLINE_INTERVAL_1DAY, "1 day ago UTC")
 
-            percent_price = ((float(open_price) - peak_price) / peak_price) * 100
+                peak_price = float(data[0][1])
 
-            if (percent_price > 75):
-                notifications.add_notification(
-                    {"message": "successful", "type": "Over 75 percent incriment", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
-            elif (percent_price > 50):
-                notifications.add_notification(
-                    {"message": "successful", "type": "Over 50 percent incriment", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
-            elif (percent_price > 25):
-                notifications.add_notification(
-                    {"message": "successful", "type": "Over 25 percent incriment", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
-            elif (percent_price > 5):
-                notifications.add_notification({"message": "successful", "type": "Over 5 percent incriment", "symbol": sy,
-                                              "open price": open_price, "current peak price": peak_price})
-            elif (percent_price < (-25)):
-                notifications.add_notification(
-                    {"message": "successful", "type": "Over 25 percent decriment", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
-            elif (percent_price < (-50)):
-                notifications.add_notification(
-                    {"message": "successful", "type": "Over 50 percent decriment", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
-            elif (percent_price < (-75)):
-                notifications.add_notification(
-                    {"message": "successful", "type": "Over 75 percent decriment", "symbol": sy,
-                     "open price": open_price, "current peak price": peak_price})
-                
+                percent_price = ((float(open_price) - peak_price) / peak_price) * 100
+
+                if (percent_price > 75):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 75 percent incriment", "symbol": sy,
+                        "open price": open_price, "current peak price": peak_price})
+                elif (percent_price > 50):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 50 percent incriment", "symbol": sy,
+                        "open price": open_price, "current peak price": peak_price})
+                elif (percent_price > 25):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 25 percent incriment", "symbol": sy,
+                        "open price": open_price, "current peak price": peak_price})
+                elif (percent_price > 5):
+                    notifications.add_notification({"message": "successful", "type": "Over 5 percent incriment", "symbol": sy,
+                                                "open price": open_price, "current peak price": peak_price})
+                elif (percent_price < (-25)):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 25 percent decriment", "symbol": sy,
+                        "open price": open_price, "current peak price": peak_price})
+                elif (percent_price < (-50)):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 50 percent decriment", "symbol": sy,
+                        "open price": open_price, "current peak price": peak_price})
+                elif (percent_price < (-75)):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 75 percent decriment", "symbol": sy,
+                        "open price": open_price, "current peak price": peak_price})
+        
+        except Exception as e:
+
+            print("Notification send Failed Check the network connection")
+                    
 
         if (state == True):
             time_stamp = deocrated_msg_history[0]
