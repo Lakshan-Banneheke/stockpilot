@@ -82,7 +82,7 @@ def initiate_pub_sub():
 
     initiate_in_memory()
     initiate_publisher_set()
-    # initiate_historical_data_set()
+    initiate_historical_data_set()
 
     print("PubSub Initiated",symbols)
 
@@ -93,10 +93,10 @@ def update_db_now(symbl,period,data,time_frame):
 
     new_data = []
 
-    if (time_frame!="25 day ago UTC"):
+    if (time_frame!="250 day ago UTC"):
         data.pop(0)
     else:
-        print("No collection Exists creating a new collection with 25 days of data for :" + coll_name)
+        print("No collection Exists creating a new collection with 250 days of data for :" + coll_name)
 
     if (len(data)>0):
 
@@ -118,7 +118,7 @@ def get_last_time(symbl,period):
         result = db_action("find_last_entry",[coll_name],"admin")
 
         if (result==[None]):
-            return("25 day ago UTC")
+            return("250 day ago UTC")
         else:
             return(int(result[0]['time']))
     
