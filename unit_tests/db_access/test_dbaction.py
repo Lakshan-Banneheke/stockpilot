@@ -11,13 +11,13 @@ def test_db_insert_delete_one():
 def test_db_insert_delete_one_authoritycheck():
     response01 = db_action("insert_one",[{"name_id":"nimal","age":23,"email":"nimal@skl.com"},"test"],"admin")
     response = db_action("remove_one",[{"name_id":"nimal"},"test"],"general")
-    assert response == "Invalid User"
+    assert response == "Error"
     response = db_action("remove_one",[{"name_id":"nimal"},"test"],"admin")
 
 
 def test_db_insert_authoritycheck():
     response = db_action("insert_one",[{"name_id":"nimal","age":23,"email":"nimal@skl.com"},"test"],"general")
-    assert response == "Invalid User"
+    assert response == "Error"
 
 
 def test_db_insert_delete_many():
