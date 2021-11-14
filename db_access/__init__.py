@@ -82,7 +82,7 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
         else:
             return("Error")
 
-        client = pymongo.MongoClient(url, tlsCAFile=certifi.where())
+        client = pymongo.MongoClient(url, tlsCAFile=certifi.where(),)
 
         db = client[dbName]
 
@@ -114,9 +114,11 @@ def db_action(type,parameters,user_type):  # Can do all the db actions through t
 
             return(result)
 
-    except pymongo.errors.OperationFailure as of:
+    except:
 
-        return("Invalid User")
+        return("Error")
+
+
    
 
         

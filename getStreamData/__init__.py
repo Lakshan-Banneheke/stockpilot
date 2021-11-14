@@ -60,11 +60,17 @@ def start_to_listen(twm, symbl):
 
 def get_symbol_set():
 
-    symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
+    try:
 
-    dt = symbl_set['data']
+        symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
-    return ({"crypto_symbols": dt})
+        dt = symbl_set['data']
+
+        return ({"crypto_symbols": dt})
+
+    except:
+
+        return("Error")
 
 
 def initiate_get_stream():

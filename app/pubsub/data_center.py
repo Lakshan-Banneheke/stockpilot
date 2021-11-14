@@ -82,7 +82,7 @@ def initiate_pub_sub():
 
     initiate_in_memory()
     initiate_publisher_set()
-    initiate_historical_data_set()
+    # initiate_historical_data_set()
 
     print("PubSub Initiated",symbols)
 
@@ -117,10 +117,16 @@ def get_last_time(symbl,period):
 
         result = db_action("find_last_entry",[coll_name],"admin")
 
-        if (result==[None]):
-            return("250 day ago UTC")
+        if result != "Error":
+
+            if (result==[None]):
+                return("250 day ago UTC")
+            else:
+                return(int(result[0]['time']))
+
         else:
-            return(int(result[0]['time']))
+
+            print("Error in DB Connection")
     
     else:
 

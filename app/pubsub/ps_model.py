@@ -102,17 +102,22 @@ class MessageAnnouncer:
 
         hist = db_action("read_many", [{"time": {"$gte": end_data, "$lt": start_date}}, coll_name], "admin")
 
+        if hist != "Error":
 
-        data_pack = []
+            data_pack = []
 
-        time_stamps =[]
+            time_stamps =[]
 
-        for val in hist:
-            if (val['data'][0] not in time_stamps):
-                time_stamps.append(val['data'][0])
-                data_pack.append(val['data'])
-                
-        return(data_pack)
+            for val in hist:
+                if (val['data'][0] not in time_stamps):
+                    time_stamps.append(val['data'][0])
+                    data_pack.append(val['data'])
+                    
+            return(data_pack)
+
+        else:
+            print("Error in History Getter")
+            return("Error")
 
 class NotificationAnnouncer:
 
