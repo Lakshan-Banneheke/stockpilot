@@ -1,9 +1,6 @@
 import os
-
 import certifi
 import pymongo
-# import bson
-# import pickle
 
 
 def create_collection(db,tName):
@@ -53,14 +50,6 @@ def last_item(db,cName):
     result = coll.find_one({},sort=[( '_id', pymongo.DESCENDING )])
     return([result]) 
 
-# def insert_img(db,data,cName):
-#     coll = db[cName]
-#     return(coll.insert_one({"user": data[0], "binary_field": bson.Binary(pickle.dumps(data[1]))}))
-
-# def read_img(db,data,cName):
-#     coll = db[cName]
-#     record = coll.find_one({"user":data})
-#     return(pickle.loads(record["binary_field"]))
 
 
 

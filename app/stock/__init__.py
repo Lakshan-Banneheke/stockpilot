@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, render_template
+from flask import Blueprint
 import os
 
 from app.stock.utils import get_symbol_set, get_historical_stock_data

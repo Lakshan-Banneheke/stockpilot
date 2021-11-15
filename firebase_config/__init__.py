@@ -12,27 +12,31 @@ firebase_admin.initialize_app(cred)
 
 def sendPush(notification, symbol):
 
-    title = symbol + ' - ' + notification['type']
-    body = 'Peak Price: ' + str(notification['current peak price']) + '\n' + 'Open Price: ' + str(notification['open price'])
-    data = {"data": title + '\n' + body}
+    try:
 
-    result = db_action("read_one", [{"type": symbol}, "notif_tokens"], "admin")
-    if result:
-        tokens = result['tokens']
-        print(title)
-        print(body)
-        # See documentation on defining a message payload.
-        message = messaging.MulticastMessage(
-            notification=messaging.Notification(
-                title=title,
-                body=body
-            ),
-            data=data,
-            tokens=tokens,
-        )
+        title = symbol + ' - ' + notification['type']
+        body = 'Peak Price: ' + str(notification['current peak price']) + '\n' + 'Open Price: ' + str(notification['open price'])
+        data = {"data": title + '\n' + body}
 
-        # Send a message to the device corresponding to the provided
-        # registration token.
-        response = messaging.send_multicast(message)
-        # Response is a message ID string.
-        print('Successfully sent message:', response)
+        result = db_action("read_one", [{"type": symbol}, "notif_tokens"], "admin")
+        if result:
+            tokens = result['tokens']
+            print(title)
+            print(body)
+            # See documentation on defining a message payload.
+            message = messaging.MulticastMessage(
+                notification=messaging.Notification(
+                    title=title,
+                    body=body
+                ),
+                data=data,
+                tokens=tokens,
+            )
+
+            # Send a message to the device corresponding to the provided
+            # registration token.
+            response = messaging.send_multicast(message)
+            # Response is a message ID string.
+            print('Successfully sent message:', response)
+    except:
+        print("Error sending notif @firebase config")

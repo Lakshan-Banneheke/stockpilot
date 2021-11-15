@@ -1,11 +1,8 @@
-from aiohttp.client import request
-from binance import exceptions
 from db_access import db_action
 import json
 import queue
 from . import notifications
 from . import db_feed
-from binance.client import Client
 
 
 class MessageAnnouncer:
@@ -118,26 +115,7 @@ class MessageAnnouncer:
                 return("Error")
         except:
             return("Error")
-
-class NotificationAnnouncer:
-
-    def __init__(self):
-        self.listener_set = []
-
-    def listen_nots(self):
-        qu = queue.Queue(maxsize=100)
-        self.listener_set.append(qu)
-        return (qu)
-
-    def announce_nots(self, msg):
-
-        msg = format_sse(data=msg)
-
-        for i in reversed(range(len(self.listener_set))):
-            try:
-                self.listener_set[i].put_nowait(msg)
-            except queue.Full:
-                del self.listener_set[i]
+            del self.listener_set[i]
 
 
 def format_sse(data: str, event=None) -> str:
@@ -145,3 +123,25 @@ def format_sse(data: str, event=None) -> str:
     if event is not None:
         msg = f'event: {event}\n{msg}'
     return msg
+
+
+
+# class NotificationAnnouncer:
+
+#     def __init__(self):
+#         self.listener_set = []
+
+#     def listen_nots(self):
+#         qu = queue.Queue(maxsize=100)
+#         self.listener_set.append(qu)
+#         return (qu)
+
+#     def announce_nots(self, msg):
+
+#         msg = format_sse(data=msg)
+
+#         for i in reversed(range(len(self.listener_set))):
+#             try:
+#                 self.listener_set[i].put_nowait(msg)
+#             except queue.Full:
+#     

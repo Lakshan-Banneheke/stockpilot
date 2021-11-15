@@ -1,5 +1,4 @@
 from time import time as tm
-import json
 import time
 
 from flask import make_response, jsonify
