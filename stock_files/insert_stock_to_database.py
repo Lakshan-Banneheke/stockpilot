@@ -26,6 +26,7 @@ def insert_1day_to_db(list):
                     "data": line
                 }
                 db_action("insert_one", [data_obj, col], "admin")
+                print(data_obj)
             a = True
         file.close()
 
@@ -50,6 +51,8 @@ def insert_1hour_to_db(list):
                     "data": line
                 }
                 db_action("insert_one", [data_obj, col], "admin")
+                print(data_obj)
+
             a = True
         file.close()
 
@@ -74,6 +77,7 @@ def insert_5min_to_db(list):
                     "data": line
                 }
                 db_action("insert_one", [data_obj, col], "admin")
+                print(data_obj)
             a = True
         file.close()
 
@@ -97,3 +101,12 @@ def add_stock(ls):
 # delete(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
 
 # add_stock(['aapl', 'msft', 'goog', 'amzn', 'fb', 'tsla', 'brk-a', 'nvda', 'v', 'jpm', 'jnj', 'baba', 'wmt', 'unh', 'hd'])
+# insert_1day_to_db(['aapl'])
+# insert_1hour_to_db(['aapl'])
+# insert_5min_to_db(['aapl'])
+
+# insert_5min_to_db([])
+insert_1hour_to_db(['amzn','fb', 'goog', 'msft', 'nvda', 'tsla'])
+
+# insert_1day_to_db(['fb', 'hd', 'nvda', 'tsla', 'unh', 'wmt'])
+
