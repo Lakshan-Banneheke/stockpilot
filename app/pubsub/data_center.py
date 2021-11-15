@@ -29,8 +29,8 @@ def get_history(symbl,interval,s_date):
         s_date = round(time() * 1000)
 
     e_date = int(round(float(s_date))) - (reverse_date[interval]*24*60*60*1000)
-    return(announcers[symbl][interval].get_historical_data(symbl,interval,int(s_date),int(e_date)))
-    
+    return (announcers[symbl][interval].get_historical_data(symbl, interval, int(round(float(s_date))), int(e_date)))
+
 
 ############################################################################ Functions related to the live listening of Crypto data Ends
 
