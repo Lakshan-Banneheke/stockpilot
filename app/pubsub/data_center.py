@@ -4,7 +4,7 @@ from db_access import db_action
 from time import time
 announcers = {}
 
-client = Client()
+
 
 symbols = []
 
@@ -49,6 +49,8 @@ def initiate_historical_data_set():
 
     try:
 
+        client = Client()
+
         for symbl in symbols:
 
             time_1m = get_last_time(symbl,"1m")
@@ -74,6 +76,7 @@ def initiate_historical_data_set():
             update_db_now(symbl,"1h",data_1h,time_1h)
             update_db_now(symbl,"1d",data_1d,time_1d)
 
+        client.session.close()
         print("History Set For:",symbl)
 
     except:

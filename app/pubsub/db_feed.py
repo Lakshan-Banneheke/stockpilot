@@ -14,8 +14,9 @@ def do_db_feed():
         if len(dbFeed)>0:
             try:
                 data = dbFeed.pop(0)
-                db_action("insert_one", [{"time": data[0], "data": data[2]}, data[1]],"admin")
-                print("db updated for", data[1], "due interval closing")
+                result = db_action("insert_one", [{"time": data[0], "data": data[2]}, data[1]],"admin")
+                if(result!="Error"):
+                    print("db updated for", data[1], "due interval closing")
             except Exception:
                 print("DB Feed Error")
         else:

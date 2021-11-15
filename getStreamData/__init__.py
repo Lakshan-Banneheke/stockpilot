@@ -56,7 +56,10 @@ def getStreamData():
 def start_to_listen(twm, symbl):
 
     def handle_socket_message(msg):
-        announce_socket(msg['s'], msg['k']['i'], msg)
+        try:
+            announce_socket(msg['s'], msg['k']['i'], msg)
+        except:
+            print(msg['s'], msg['k']['i'], "failed real time send")
 
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1MINUTE)
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_15MINUTE)
