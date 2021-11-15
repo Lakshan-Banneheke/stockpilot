@@ -115,7 +115,7 @@ class MessageAnnouncer:
                 return("Error")
         except:
             return("Error")
-            del self.listener_set[i]
+            
 
 
 def format_sse(data: str, event=None) -> str:
@@ -144,4 +144,5 @@ def format_sse(data: str, event=None) -> str:
 #             try:
 #                 self.listener_set[i].put_nowait(msg)
 #             except queue.Full:
+#                 del self.listener_set[i]
 #     
