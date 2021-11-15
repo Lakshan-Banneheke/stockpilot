@@ -8,7 +8,7 @@ client = Client()
 
 symbols = []
 
-reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":25}
+reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":150}
 
 period_set = ["1m","15m","30m","1h","1d"]
 

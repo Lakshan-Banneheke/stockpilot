@@ -1,7 +1,7 @@
 from db_access import db_action
 from time import time
 
-reverse_date = {"5m":5,"30m":10,"1h":15,"1d":25}
+reverse_date = {"5m":5,"30m":10,"1h":30,"1d":150}
 
 
 def get_symbol_set():
