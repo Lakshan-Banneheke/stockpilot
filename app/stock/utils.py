@@ -17,10 +17,12 @@ def get_historical_stock_data(symbl, interval, s_date):
     if (s_date == "0000"):
         s_date = int(last_item[0]['time'])
 
-    e_date = int(s_date) - (reverse_date[interval] * 24 * 60 * 60 * 1000)
+    e_date = int(round(float(s_date))) - (reverse_date[interval] * 24 * 60 * 60 * 1000)
 
     print(s_date)
     print(e_date)
+
+
 
 
 
