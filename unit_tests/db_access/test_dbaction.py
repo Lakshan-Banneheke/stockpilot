@@ -53,9 +53,10 @@ def test_db_count():
 
 
 def test_db_last_item():
-    reponse01 = db_action("insert_many",[[{"name_id":"nimal","age":23,"email":"nimal@skl.com"},{"name_id":"nimal","age":24,"email":"niamal@skl.com"}],"test"],"admin")
+    reponse01 = db_action("insert_many",[[{"name_id":"nimal","age":23,"email":"nimal@skl.com"},{"name_id":"nimal","age":24,"email":"niamal@skl.com"},{"name_id":"nimali","age":26,"email":"nimali@skl.com"}],"test"],"admin")
     response = db_action("find_last_entry",["test"],"admin")
     assert len(response) == 1
     assert isinstance(response[0],Dict)
+    assert response[0]["name_id"] == "nimali"
     response = db_action("remove_many",[{"name_id":"nimal"},"test"],"admin")
-
+    response = db_action("remove_many",[{"name_id":"nimali"},"test"],"admin")

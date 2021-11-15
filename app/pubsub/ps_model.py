@@ -12,10 +12,6 @@ class MessageAnnouncer:
 
     def __init__(self):
         self.listeners = []
-        try:
-            self.client = Client()
-        except Exception as e:
-            print("check network")
 
     def listen(self):
         q = queue.Queue(maxsize=20)
@@ -52,9 +48,9 @@ class MessageAnnouncer:
 
             if (typ == "data_1m" and state == True):
 
-                data = self.client.get_historical_klines(sy, Client.KLINE_INTERVAL_1DAY, "1 day ago UTC")
+                data_yesterday = db_action("find_last_entry",[sy + "_1d"],"admin")
 
-                peak_price = float(data[0][1])
+                peak_price = float(data_yesterday[0]["data"][1])
 
                 percent_price = ((float(open_price) - peak_price) / peak_price) * 100
 
@@ -98,25 +94,29 @@ class MessageAnnouncer:
 
     def get_historical_data(self, symbl, interval, start_date, end_data):
 
-        coll_name = symbl + "_" + interval
+        try:
 
-        hist = db_action("read_many", [{"time": {"$gte": end_data, "$lt": start_date}}, coll_name], "admin")
+            coll_name = symbl + "_" + interval
 
-        if hist != "Error":
+            hist = db_action("read_many", [{"time": {"$gte": end_data, "$lt": start_date}}, coll_name], "admin")
 
-            data_pack = []
+            if hist != "Error":
 
-            time_stamps =[]
+                data_pack = []
 
-            for val in hist:
-                if (val['data'][0] not in time_stamps):
-                    time_stamps.append(val['data'][0])
-                    data_pack.append(val['data'])
-                    
-            return(data_pack)
+                time_stamps =[]
 
-        else:
-            print("Error in History Getter")
+                for val in hist:
+                    if (val['data'][0] not in time_stamps):
+                        time_stamps.append(val['data'][0])
+                        data_pack.append(val['data'])
+                        
+                return(data_pack)
+
+            else:
+                print("Error in History Getter")
+                return("Error")
+        except:
             return("Error")
 
 class NotificationAnnouncer:

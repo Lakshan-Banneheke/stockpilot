@@ -22,12 +22,15 @@ def create_app():
 
     @APP.before_first_request
     def activate_job():
-        initiate_get_stream()
-        initiate_pub_sub()
-        scheduler.add_job(getStreamData)
-        scheduler.add_job(do_db_feed)
-        scheduler.add_job(look_for_nots)
-        scheduler.start()
+        try:
+            initiate_get_stream()
+            initiate_pub_sub()
+            scheduler.add_job(getStreamData)
+            scheduler.add_job(do_db_feed)
+            scheduler.add_job(look_for_nots)
+            scheduler.start()
+        except:
+            print("Cannot start the server")
 
     APP.register_blueprint(HOME_BP, url_prefix='/')
     APP.register_blueprint(CRYPTO_BP, url_prefix='/binance/')

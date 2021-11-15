@@ -55,14 +55,17 @@ def look_for_nots():
 
 
 def historical_nots():
-    time_filter = int(tm() * 1000 - (5 * 24 * 60 * 60 * 1000))
-    data = db_action("read_many", [{"time": {"$gte": time_filter}}, "notifications"], "admin")
-    opt = []
-    for dt in data:
-        opt.append([dt['time'], dt['data']])
+    try:
+        time_filter = int(tm() * 1000 - (5 * 24 * 60 * 60 * 1000))
+        data = db_action("read_many", [{"time": {"$gte": time_filter}}, "notifications"], "admin")
+        opt = []
+        for dt in data:
+            opt.append([dt['time'], dt['data']])
 
 
-    return {"last 5 days notifications": opt[0:20]}
+        return {"last 5 days notifications": opt[0:20]}
+    except:
+        return {"last 5 days notifications": "Cannot Load Server Error"}
 
 
 

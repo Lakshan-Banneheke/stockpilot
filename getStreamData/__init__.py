@@ -14,9 +14,11 @@ symbols = []
 
 def getStreamData():
 
-        status = True
+    status = True
 
-        while (True):
+    while (True):
+
+        try:
 
             if (checkInternetSocket()):
 
@@ -42,6 +44,11 @@ def getStreamData():
                 if (status):
                     status = False
                     print("waiting for reconnection")
+
+        except:
+
+            print("Error in get Stream")
+
 
         
 
@@ -75,15 +82,21 @@ def get_symbol_set():
 
 def initiate_get_stream():
 
-    symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
+    try:
 
-    for symbl in symbl_set['data']:
+        symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
-        if (symbl not in symbols):
+        for symbl in symbl_set['data']:
 
-            symbols.append(symbl)
+            if (symbl not in symbols):
 
-    print("Get Stream initiated", symbols)
+                symbols.append(symbl)
+
+        print("Get Stream initiated", symbols)
+    
+    except:
+
+        print("Error in server cant start")
 
 def checkInternetSocket(host="8.8.8.8", port=53, timeout=3):
     try:
