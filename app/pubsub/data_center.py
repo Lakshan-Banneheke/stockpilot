@@ -2,9 +2,9 @@ from .ps_model import MessageAnnouncer
 from binance.client import Client
 from db_access import db_action
 from time import time
+
+
 announcers = {}
-
-
 
 symbols = []
 
@@ -45,8 +45,12 @@ def get_history(symbl,interval,s_date):
 ############################################################################ Initiation Logic Starts
 
 def initiate_publisher_set():
-    for symbl in symbols:
-        announcers[symbl] = {"1d":MessageAnnouncer(),"1h":MessageAnnouncer(),"30m":MessageAnnouncer(),"15m":MessageAnnouncer(),"1m":MessageAnnouncer()}
+
+    try:
+        for symbl in symbols:
+            announcers[symbl] = {"1d":MessageAnnouncer(),"1h":MessageAnnouncer(),"30m":MessageAnnouncer(),"15m":MessageAnnouncer(),"1m":MessageAnnouncer()}
+    except:
+        print("Error in initiate_publisher_set")
 
 def initiate_historical_data_set():
 
@@ -79,7 +83,6 @@ def initiate_historical_data_set():
             update_db_now(symbl,"1h",data_1h,time_1h)
             update_db_now(symbl,"1d",data_1d,time_1d)
 
-        client.session.close()
         print("History Set For:",symbl)
 
     except:
@@ -88,15 +91,20 @@ def initiate_historical_data_set():
     
 def initiate_in_memory():
 
-    symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
+    try:
 
-    if symbl_set != "Error":
+        symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
 
-        for symbl in symbl_set['data']:
+        if symbl_set != "Error":
 
-            if (symbl not in symbols):
+            for symbl in symbl_set['data']:
 
-                symbols.append(symbl)
+                if (symbl not in symbols):
+
+                    symbols.append(symbl)
+    except:
+
+        print("Error in initiate_in_memory")
     
 
 
