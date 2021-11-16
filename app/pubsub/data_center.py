@@ -12,6 +12,7 @@ reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":150}
 
 period_set = ["1m","15m","30m","1h","1d"]
 
+
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
 def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
@@ -84,7 +85,7 @@ def initiate_historical_data_set():
             update_db_now(symbl,"1h",data_1h,time_1h)
             update_db_now(symbl,"1d",data_1d,time_1d)
 
-        print("History Set For:",symbl)
+            print("History Set For:",symbl)
 
     except:
         print("Cannot Set Historical Data")
