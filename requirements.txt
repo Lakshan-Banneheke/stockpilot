@@ -115,6 +115,7 @@ service-identity==21.1.0
 six==1.16.0
 sseclient==0.0.27
 TA-Lib==0.4.21
+tbb==2021.4.0
 toml==0.10.2
 tomli==1.2.2
 treq==21.5.0
