@@ -2,7 +2,6 @@ from db_access import db_action
 from binance import ThreadedWebsocketManager
 from binance.enums import KLINE_INTERVAL_15MINUTE, KLINE_INTERVAL_1DAY, KLINE_INTERVAL_1HOUR, KLINE_INTERVAL_1MINUTE, KLINE_INTERVAL_30MINUTE
 from app.pubsub.data_center import announce_socket
-from binance.exceptions import BinanceAPIException
 import socket
 import time
 
@@ -14,9 +13,11 @@ symbols = []
 
 def getStreamData():
 
-        status = True
+    status = True
 
-        while (True):
+    while (True):
+
+        try:
 
             if (checkInternetSocket()):
 
@@ -43,6 +44,11 @@ def getStreamData():
                     status = False
                     print("waiting for reconnection")
 
+        except:
+
+            print("Error in get Stream")
+
+
         
 
 
@@ -50,7 +56,10 @@ def getStreamData():
 def start_to_listen(twm, symbl):
 
     def handle_socket_message(msg):
-        announce_socket(msg['s'], msg['k']['i'], msg)
+        try:
+            announce_socket(msg['s'], msg['k']['i'], msg)
+        except:
+            print(msg['s'], msg['k']['i'], "failed real time send")
 
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1MINUTE)
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_15MINUTE)
@@ -75,15 +84,21 @@ def get_symbol_set():
 
 def initiate_get_stream():
 
-    symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
+    try:
 
-    for symbl in symbl_set['data']:
+        symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
-        if (symbl not in symbols):
+        for symbl in symbl_set['data']:
 
-            symbols.append(symbl)
+            if (symbl not in symbols):
 
-    print("Get Stream initiated", symbols)
+                symbols.append(symbl)
+
+        print("Get Stream initiated", symbols)
+    
+    except:
+
+        print("Error in server cant start")
 
 def checkInternetSocket(host="8.8.8.8", port=53, timeout=3):
     try:

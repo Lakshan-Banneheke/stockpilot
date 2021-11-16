@@ -1,21 +1,14 @@
-from aiohttp.client import request
-from binance import exceptions
 from db_access import db_action
 import json
 import queue
 from . import notifications
 from . import db_feed
-from binance.client import Client
 
 
 class MessageAnnouncer:
 
     def __init__(self):
         self.listeners = []
-        try:
-            self.client = Client()
-        except Exception as e:
-            print("check network")
 
     def listen(self):
         q = queue.Queue(maxsize=20)
@@ -52,9 +45,9 @@ class MessageAnnouncer:
 
             if (typ == "data_1m" and state == True):
 
-                data = self.client.get_historical_klines(sy, Client.KLINE_INTERVAL_1DAY, "1 day ago UTC")
+                data_yesterday = db_action("find_last_entry",[sy + "_1d"],"admin")
 
-                peak_price = float(data[0][1])
+                peak_price = float(data_yesterday[0]["data"][1])
 
                 percent_price = ((float(open_price) - peak_price) / peak_price) * 100
 
@@ -98,46 +91,31 @@ class MessageAnnouncer:
 
     def get_historical_data(self, symbl, interval, start_date, end_data):
 
-        coll_name = symbl + "_" + interval
+        try:
 
-        hist = db_action("read_many", [{"time": {"$gte": end_data, "$lt": start_date}}, coll_name], "admin")
+            coll_name = symbl + "_" + interval
 
-        if hist != "Error":
+            hist = db_action("read_many", [{"time": {"$gte": end_data, "$lt": start_date}}, coll_name], "admin")
 
-            data_pack = []
+            if hist != "Error":
 
-            time_stamps =[]
+                data_pack = []
 
-            for val in hist:
-                if (val['data'][0] not in time_stamps):
-                    time_stamps.append(val['data'][0])
-                    data_pack.append(val['data'])
-                    
-            return(data_pack)
+                time_stamps =[]
 
-        else:
-            print("Error in History Getter")
+                for val in hist:
+                    if (val['data'][0] not in time_stamps):
+                        time_stamps.append(val['data'][0])
+                        data_pack.append(val['data'])
+                        
+                return(data_pack)
+
+            else:
+                print("Error in History Getter")
+                return("Error")
+        except:
             return("Error")
-
-class NotificationAnnouncer:
-
-    def __init__(self):
-        self.listener_set = []
-
-    def listen_nots(self):
-        qu = queue.Queue(maxsize=100)
-        self.listener_set.append(qu)
-        return (qu)
-
-    def announce_nots(self, msg):
-
-        msg = format_sse(data=msg)
-
-        for i in reversed(range(len(self.listener_set))):
-            try:
-                self.listener_set[i].put_nowait(msg)
-            except queue.Full:
-                del self.listener_set[i]
+            
 
 
 def format_sse(data: str, event=None) -> str:
@@ -145,3 +123,26 @@ def format_sse(data: str, event=None) -> str:
     if event is not None:
         msg = f'event: {event}\n{msg}'
     return msg
+
+
+
+# class NotificationAnnouncer:
+
+#     def __init__(self):
+#         self.listener_set = []
+
+#     def listen_nots(self):
+#         qu = queue.Queue(maxsize=100)
+#         self.listener_set.append(qu)
+#         return (qu)
+
+#     def announce_nots(self, msg):
+
+#         msg = format_sse(data=msg)
+
+#         for i in reversed(range(len(self.listener_set))):
+#             try:
+#                 self.listener_set[i].put_nowait(msg)
+#             except queue.Full:
+#                 del self.listener_set[i]
+#     

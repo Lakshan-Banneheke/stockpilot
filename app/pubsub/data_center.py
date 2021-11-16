@@ -2,9 +2,9 @@ from .ps_model import MessageAnnouncer
 from binance.client import Client
 from db_access import db_action
 from time import time
-announcers = {}
 
-client = Client()
+
+announcers = {}
 
 symbols = []
 
@@ -15,98 +15,137 @@ period_set = ["1m","15m","30m","1h","1d"]
 ############################################################################ Functions related to the live listening of Crypto data Starts
 
 def announce_socket(name,interval,raw_data): # use this function to announce the stream data to the respective user set
-    announcers[name][interval].announce(raw_data)
+    try:
+        announcers[name][interval].announce(raw_data)
+    except:
+        print("Error in announcing")
 
 
 def listen_socket(name,interval): # according to the user input neeeds to listen to the relevent announcer instance
-    announcer = announcers[name][interval]
-    return(announcer.listen())
+    try:
+        announcer = announcers[name][interval]
+        return(announcer.listen())
+    except:
+        return("Socket doesnt respond")
 
 
 def get_history(symbl,interval,s_date):
 
-    if (s_date == "0000"):
-        s_date = round(time() * 1000)
 
-    e_date = int(round(float(s_date))) - (reverse_date[interval]*24*60*60*1000)
-    return (announcers[symbl][interval].get_historical_data(symbl, interval, int(round(float(s_date))), int(e_date)))
-
+    try:
+        if (s_date == "0000"):
+            s_date = round(time() * 1000)
+        e_date = int(round(float(s_date))) - (reverse_date[interval]*24*60*60*1000)
+        return(announcers[symbl][interval].get_historical_data(symbl,interval,int(round(float(s_date))),int(e_date)))
+    except:
+        return("Get_history @data center faileds")
+        
 
 ############################################################################ Functions related to the live listening of Crypto data Ends
 
 ############################################################################ Initiation Logic Starts
 
 def initiate_publisher_set():
-    for symbl in symbols:
-        announcers[symbl] = {"1d":MessageAnnouncer(),"1h":MessageAnnouncer(),"30m":MessageAnnouncer(),"15m":MessageAnnouncer(),"1m":MessageAnnouncer()}
+
+    try:
+        for symbl in symbols:
+            announcers[symbl] = {"1d":MessageAnnouncer(),"1h":MessageAnnouncer(),"30m":MessageAnnouncer(),"15m":MessageAnnouncer(),"1m":MessageAnnouncer()}
+    except:
+        print("Error in initiate_publisher_set")
 
 def initiate_historical_data_set():
 
-    for symbl in symbols:
+    try:
 
-        time_1m = get_last_time(symbl,"1m")
-        time_15m = get_last_time(symbl,"15m")
-        time_30m = get_last_time(symbl,"30m")
-        time_1h = get_last_time(symbl,"1h")
-        time_1d = get_last_time(symbl,"1d")
+        client = Client()
 
-        data_1m = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_1MINUTE, time_1m)
-        data_15m = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_15MINUTE, time_15m)
-        data_30m = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_30MINUTE, time_30m)
-        data_1h = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_1HOUR, time_1h)
-        data_1d = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_1DAY, time_1d)
+        for symbl in symbols:
 
-        update_db_now(symbl,"1m",data_1m,time_1m)
-        update_db_now(symbl,"15m",data_15m,time_15m)
-        update_db_now(symbl,"30m",data_30m,time_30m)
-        update_db_now(symbl,"1h",data_1h,time_1h)
-        update_db_now(symbl,"1d",data_1d,time_1d)
-        
+            time_1m = get_last_time(symbl,"1m")
+            time_15m = get_last_time(symbl,"15m")
+            time_30m = get_last_time(symbl,"30m")
+            time_1h = get_last_time(symbl,"1h")
+            time_1d = get_last_time(symbl,"1d")
+
+            if time_1m != "Error":
+                data_1m = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_1MINUTE, time_1m)
+            if time_15m != "Error":
+                data_15m = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_15MINUTE, time_15m)
+            if time_30m != "Error":
+                data_30m = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_30MINUTE, time_30m)
+            if time_1h != "Error":
+                data_1h = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_1HOUR, time_1h)
+            if time_1d != "Error":
+                data_1d = client.get_historical_klines(symbl, Client.KLINE_INTERVAL_1DAY, time_1d)
+
+            update_db_now(symbl,"1m",data_1m,time_1m)
+            update_db_now(symbl,"15m",data_15m,time_15m)
+            update_db_now(symbl,"30m",data_30m,time_30m)
+            update_db_now(symbl,"1h",data_1h,time_1h)
+            update_db_now(symbl,"1d",data_1d,time_1d)
+
         print("History Set For:",symbl)
+
+    except:
+        print("Cannot Set Historical Data")
 
     
 def initiate_in_memory():
 
-    symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
+    try:
 
-    if symbl_set != "Error":
+        symbl_set = db_action("read_one",[{"type":"crypto"},"symbols"],"admin")
 
-        for symbl in symbl_set['data']:
+        if symbl_set != "Error":
 
-            if (symbl not in symbols):
+            for symbl in symbl_set['data']:
 
-                symbols.append(symbl)
+                if (symbl not in symbols):
+
+                    symbols.append(symbl)
+    except:
+
+        print("Error in initiate_in_memory")
     
 
 
 def initiate_pub_sub():
 
-    initiate_in_memory()
-    initiate_publisher_set()
-    # initiate_historical_data_set()
+    try:
 
-    print("PubSub Initiated",symbols)
+        initiate_in_memory()
+        initiate_publisher_set()
+        # initiate_historical_data_set()
+
+        print("PubSub Initiated",symbols)
+    
+    except:
+
+        print("Cannot start the server")
 
 
 def update_db_now(symbl,period,data,time_frame):
 
-    coll_name = symbl + "_" + period
+    try:
+        coll_name = symbl + "_" + period
 
-    new_data = []
+        new_data = []
 
-    if (time_frame!="250 day ago UTC"):
-        data.pop(0)
-    else:
-        print("No collection Exists creating a new collection with 250 days of data for :" + coll_name)
+        if (time_frame!="250 day ago UTC"):
+            data.pop(0)
+        else:
+            print("No collection Exists creating a new collection with 250 days of data for :" + coll_name)
 
-    if (len(data)>0):
+        if (len(data)>0):
 
-        for dt in data:
+            for dt in data:
 
-            new_data.append({"time":dt[0],"data":dt})
+                new_data.append({"time":dt[0],"data":dt})
 
-        
-        db_action("insert_many",[new_data,coll_name],"admin")
+            
+            db_action("insert_many",[new_data,coll_name],"admin")
+    except:
+        print("Couldnt Set History for",coll_name)
     
 
 
@@ -127,11 +166,11 @@ def get_last_time(symbl,period):
 
         else:
 
-            print("Error in DB Connection")
+            return("Error")
     
     else:
 
-        return("Invalid Period or Symbol")
+        return("Error")
 
 def validity_check(name,interval):
     if name in symbols and interval in period_set:
