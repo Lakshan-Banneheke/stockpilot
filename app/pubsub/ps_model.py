@@ -66,6 +66,10 @@ class MessageAnnouncer:
                 elif (percent_price > 5):
                     notifications.add_notification({"message": "successful", "type": "Over 5 percent incriment", "symbol": sy,
                                                 "open price": open_price, "current peak price": peak_price})
+                elif (percent_price < (-5)):
+                    notifications.add_notification(
+                        {"message": "successful", "type": "Over 5 percent decriment", "symbol": sy,
+                         "open price": open_price, "current peak price": peak_price})
                 elif (percent_price < (-25)):
                     notifications.add_notification(
                         {"message": "successful", "type": "Over 25 percent decriment", "symbol": sy,
