@@ -6,8 +6,8 @@ import app
 def load_env():
     load_dotenv()
 
-# @pytest.fixture
-# def client():
-#     APP = app.create_app()
-#     with APP.test_client() as client:
-#         yield client
+@pytest.fixture
+def client():
+    APP = app.create_app()
+    with APP.test_client() as client:
+        yield client

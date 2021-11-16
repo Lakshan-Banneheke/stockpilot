@@ -8,7 +8,7 @@ announcers = {}
 
 symbols = []
 
-reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":25}
+reverse_date = {"1m":1,"15m":5,"30m":10,"1h":15,"1d":150}
 
 period_set = ["1m","15m","30m","1h","1d"]
 
@@ -31,11 +31,12 @@ def listen_socket(name,interval): # according to the user input neeeds to listen
 
 def get_history(symbl,interval,s_date):
 
+
     try:
         if (s_date == "0000"):
             s_date = round(time() * 1000)
-        e_date = int(s_date) - (reverse_date[interval]*24*60*60*1000)
-        return(announcers[symbl][interval].get_historical_data(symbl,interval,int(s_date),int(e_date)))
+        e_date = int(round(float(s_date))) - (reverse_date[interval]*24*60*60*1000)
+        return(announcers[symbl][interval].get_historical_data(symbl,interval,int(round(float(s_date))),int(e_date)))
     except:
         return("Get_history @data center faileds")
         
