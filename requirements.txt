@@ -89,7 +89,6 @@ python-snappy==0.6.0
 pytimeparse==1.1.8
 pytz==2021.1
 pywin32-ctypes==0.2.0
-QScintilla==2.12.1
 redis==3.5.3
 regex==2021.8.28
 requests==2.26.0
