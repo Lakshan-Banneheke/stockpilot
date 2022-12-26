@@ -74,6 +74,20 @@ To access the watch list of a user use the following end points
 Login = localhost:5000/user/login
 Register = localhost:5000/user/register
 
+> To add and view the profile photo of the user
+
+  [POST] localhost:5000/user/add_profile_image
+
+  In the data section include the following json file
+
+  {
+    "email" : "bg@gmail.com",
+    "file" : "Add the base64 encoded image string here"}
+  }
+
+
+  [GET] localhost:5000/user/get_profile_image/<Add the User Email here>
+
 ############################################################ User end points ends
 
 ############################################################ TA end points
@@ -88,19 +102,15 @@ EMA = localhost:5000/ta/ema/type(stock or crypto)/stockOrCryptoName/interval
 WMA = localhost:5000/ta/wma/type(stock or crypto)/stockOrCryptoName/interval
 OBV = localhost:5000/ta/obv/type(stock or crypto)/stockOrCryptoName/interval
 
-############################################################ TA end points ends
+############################################################ TA end points ends here
 
 ############################################################ Historical Crypto Data End point starts
 
 Can use this to get the historical data from the database.
 
-Here when the server starts 1 day history for all the crypto listed will be read from the binance and will be added to the database.
+  [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here/start_date_in_milliseconds
 
-Then when the real time data comes they are put in a queue and when the queue becomes full those data gets saved to the mongodb.
-
-End point reads the database first and then queue data is appended and returned as a json kline
-
-  [GET] localhost:5000/binance/historical/crypto_name_comes_here/interval_comes Here
+  >>>>>>>> By default end date is 5 days back to the start date. Can alter the value at data_center reverse_date variable
 
 Intervals are defined under the listening endpoints.
 

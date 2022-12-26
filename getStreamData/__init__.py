@@ -2,7 +2,6 @@ from db_access import db_action
 from binance import ThreadedWebsocketManager
 from binance.enums import KLINE_INTERVAL_15MINUTE, KLINE_INTERVAL_1DAY, KLINE_INTERVAL_1HOUR, KLINE_INTERVAL_1MINUTE, KLINE_INTERVAL_30MINUTE
 from app.pubsub.data_center import announce_socket
-from binance.exceptions import BinanceAPIException
 import socket
 import time
 
@@ -14,24 +13,53 @@ symbols = []
 
 def getStreamData():
 
-    if (checkInternetSocket()):
+    status = True
 
-        twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
+    while (True):
 
-        twm.start()
+        try:
 
-        print("Publisher started working !!!")
+            if (checkInternetSocket()):
 
-        for smbl in symbols:
-            start_to_listen(twm,smbl)
+                status = True
 
-        # twm.join()
+                print("Internet Connection available for Binance Connection !!!")
+
+                twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
+
+                twm.start()
+
+                print("Publisher started working !!!")
+
+                for smbl in symbols:
+                    start_to_listen(twm,smbl)
+
+                while (True):
+                    if (not checkInternetSocket()):
+                        twm.stop()
+                        print("Internet Not working")
+                        break
+            else:
+                if (status):
+                    status = False
+                    print("waiting for reconnection")
+
+        except:
+
+            print("Error in get Stream")
+
+
+        
+
 
 
 def start_to_listen(twm, symbl):
 
     def handle_socket_message(msg):
-        announce_socket(msg['s'], msg['k']['i'], msg)
+        try:
+            announce_socket(msg['s'], msg['k']['i'], msg)
+        except:
+            print(msg['s'], msg['k']['i'], "failed real time send")
 
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_1MINUTE)
     twm.start_kline_socket(callback=handle_socket_message, symbol=symbl, interval=KLINE_INTERVAL_15MINUTE)
@@ -41,24 +69,36 @@ def start_to_listen(twm, symbl):
 
 def get_symbol_set():
 
-    symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
+    try:
 
-    dt = symbl_set['data']
+        symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
-    return ({"crypto_symbols": dt})
+        dt = symbl_set['data']
+
+        return ({"crypto_symbols": dt})
+
+    except:
+
+        return("Error")
 
 
 def initiate_get_stream():
 
-    symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
+    try:
 
-    for symbl in symbl_set['data']:
+        symbl_set = db_action("read_one", [{"type": "crypto"}, "symbols"], "admin")
 
-        if (symbl not in symbols):
+        for symbl in symbl_set['data']:
 
-            symbols.append(symbl)
+            if (symbl not in symbols):
 
-    print("Get Stream initiated", symbols)
+                symbols.append(symbl)
+
+        print("Get Stream initiated", symbols)
+    
+    except:
+
+        print("Error in server cant start")
 
 def checkInternetSocket(host="8.8.8.8", port=53, timeout=3):
     try:
@@ -68,21 +108,21 @@ def checkInternetSocket(host="8.8.8.8", port=53, timeout=3):
     except socket.error as ex:
         return(False)
 
-def reboot_binance_connection():
+# def reboot_binance_connection():
 
-    while (True):
+#     while (True):
 
-        reboot = False
+#         reboot = False
 
-        while (not checkInternetSocket()):
-            if (not reboot):
-                reboot = True
-                print("Internet Connection Not working Please Recconect :(")
-            time.sleep(5)
+#         while (not checkInternetSocket()):
+#             if (not reboot):
+#                 reboot = True
+#                 print("Internet Connection Not working Please Recconect :(")
+#             time.sleep(5)
 
-        if (reboot):
-            print("Internet Connection rebooted")
-            getStreamData()
+#         if (reboot):
+#             print("Internet Connection rebooted")
+#             getStreamData()
             
         
 
