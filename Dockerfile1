@@ -2,15 +2,6 @@ FROM python:3.9
 
 WORKDIR /code
 
-RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
-    tar xzvf ta-lib-0.4.0-src.tar.gz && \
-    cd ta-lib && \
-    ./configure --prefix=/usr && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -rf ta-lib*
-
 COPY requirements.txt requirements.txt
 RUN pip install install --extra-index-url https://www.piwheels.org/simple -r requirements.txt
 
