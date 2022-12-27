@@ -1,8 +1,8 @@
-FROM python:3.8
+FROM python:3.9
 
 WORKDIR /code
 
-RUN pip3 install cryptography==3.4.8
+RUN pip install cryptography==3.4.8
 
 COPY . .
 
