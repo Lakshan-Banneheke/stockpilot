@@ -2,8 +2,7 @@ FROM python:3.9
 
 WORKDIR /code
 
-COPY requirements1.txt requirements1.txt
-RUN pip install install --extra-index-url https://www.piwheels.org/simple -r requirements1.txt
+RUN sudo apt-get install libatlas-base-dev
 
 COPY . .
 
