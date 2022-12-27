@@ -2,7 +2,7 @@ FROM python:3.9
 
 WORKDIR /code
 
-RUN sudo apt-get install libatlas-base-dev
+RUN apt-get install libatlas-base-dev
 
 COPY . .
 
