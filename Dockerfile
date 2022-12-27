@@ -12,7 +12,7 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
     rm -rf ta-lib*
 
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip install install --extra-index-url https://www.piwheels.org/simple -r requirements.txt
 
 COPY . .
 
