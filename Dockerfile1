@@ -2,7 +2,7 @@ FROM python:3.9
 
 WORKDIR /code
 
-RUN pip install cryptography==3.4.8
+RUN pip install --extra-index-url https://www.piwheels.org/simple cryptography==3.4.8
 
 COPY . .
 
