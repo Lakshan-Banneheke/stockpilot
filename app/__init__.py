@@ -7,7 +7,7 @@ from app.ta import TA_BP
 from app.user import USER_BP
 from app.acessWatchList import WLIST_BP
 from app.notifications import NOTIFICATIONS_BP
-from getStreamData import getStreamData, initiate_get_stream
+from app.utils.getStreamData import getStreamData, initiate_get_stream
 from app.pubsub.data_center import initiate_pub_sub
 from app.pubsub.db_feed import do_db_feed
 from flask_cors import CORS

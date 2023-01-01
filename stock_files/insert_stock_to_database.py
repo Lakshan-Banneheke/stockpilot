@@ -1,9 +1,7 @@
-import json
 import os
-import time
 from datetime import timezone, datetime
 
-from db_access import db_action
+from app.utils.db_access import db_action
 os.environ["MONGO_URL_GENERAL"] = "mongodb+srv://SEPU02:general123@sepcluster.yjn4m.mongodb.net/test_sep?retryWrites=true&w=majority"
 os.environ["MONGO_URL_ADMIN"] = "mongodb+srv://SEPU01:User123@sepcluster.yjn4m.mongodb.net/test_sep?retryWrites=true&w=majority"
 

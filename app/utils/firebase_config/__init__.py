@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, messaging
 import os
 
-from db_access import db_action
+from app.utils.db_access import db_action
 
 current_direc = os.getcwd()
 path_name = os.path.join(current_direc,"serviceKey.json")

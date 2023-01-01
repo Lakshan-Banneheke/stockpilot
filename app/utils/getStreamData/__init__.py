@@ -1,4 +1,4 @@
-from db_access import db_action
+from app.utils.db_access import db_action
 from binance import ThreadedWebsocketManager
 from binance.enums import KLINE_INTERVAL_15MINUTE, KLINE_INTERVAL_1DAY, KLINE_INTERVAL_1HOUR, KLINE_INTERVAL_1MINUTE, KLINE_INTERVAL_30MINUTE
 from app.pubsub.data_center import announce_socket

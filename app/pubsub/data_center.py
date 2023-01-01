@@ -1,6 +1,6 @@
 from .ps_model import MessageAnnouncer
 from binance.client import Client
-from db_access import db_action
+from app.utils.db_access import db_action
 from time import time
 
 

@@ -1,5 +1,5 @@
-from typing import Dict, List
-from db_access import db_action
+from typing import Dict
+from app.utils.db_access import db_action
 
 
 def test_db_insert_delete_one():

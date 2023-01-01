@@ -1,4 +1,4 @@
-from db_access import db_action
+from app.utils.db_access import db_action
 import json
 import queue
 from . import notifications
