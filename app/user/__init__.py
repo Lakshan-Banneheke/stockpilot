@@ -1,6 +1,4 @@
 import json
-from flask import Blueprint, request
-from db_access import db_action
 import os
 import uuid
 from functools import wraps
@@ -10,7 +8,7 @@ from flask import Blueprint, request, make_response, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
 
-from db_access import db_action
+from app.utils.db_access import db_action
 
 USER_BP = Blueprint('USER_BP', __name__)
 

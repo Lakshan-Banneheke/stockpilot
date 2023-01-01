@@ -1,4 +1,4 @@
-from db_access import db_action
+from app.utils.db_access import db_action
 
 reverse_date = {"5m":5,"30m":10,"1h":30,"1d":150}
 

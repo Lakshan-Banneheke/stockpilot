@@ -1,0 +1,66 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stockpilot
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: stockpilot
+            port:
+              number: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stockpilot
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    app:  stockpilot
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockpilot-backend
+spec:
+  selector:
+    matchLabels:
+      app: stockpilot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stockpilot
+    spec:
+      containers:
+      - name: stockpilot-backend
+        image: lakshanbanneheke/stockpilot:rpi
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 80
+        env:
+          - name: FLASK_APP
+            value: "app.py"
+          - name: FLASK_ENV
+            value: "development"
+          - name: FLASK_RUN_PORT
+            value: "80"
+          - name: SECRET_KEY
+            value: "stockpilot"
+          - name: MONGO_URL_GENERAL
+            value: "mongodb+srv://SEPU02:general123@sepcluster.yjn4m.mongodb.net/test_sep?retryWrites=true&w=majority"
+          - name: MONGO_URL_ADMIN
+            value: "mongodb+srv://SEPU01:User123@sepcluster.yjn4m.mongodb.net/test_sep?retryWrites=true&w=majority"

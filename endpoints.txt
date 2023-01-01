@@ -91,7 +91,8 @@ Register = localhost:5000/user/register
 ############################################################ User end points ends
 
 ############################################################ TA end points
-RSI = localhost:5000/ta/rsi/type(stock or crypto)/stockOrCryptoName/interval
+RSI =
+
 MACD = localhost:5000/ta/macd/type(stock or crypto)/stockOrCryptoName/interval
 Bollinger Bands = localhost:5000/ta/bbands/type(stock or crypto)/stockOrCryptoName/interval
 ROC = localhost:5000/ta/roc/type(stock or crypto)/stockOrCryptoName/interval

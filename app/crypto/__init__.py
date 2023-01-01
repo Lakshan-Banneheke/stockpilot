@@ -2,7 +2,7 @@ import json
 import flask
 from flask import Blueprint
 from ..pubsub.data_center import listen_socket,get_history,validity_check
-from getStreamData import get_symbol_set
+from app.utils.getStreamData import get_symbol_set
 
 
 CRYPTO_BP = Blueprint('CRYPTO_BP', __name__)

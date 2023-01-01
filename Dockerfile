@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 
 WORKDIR /code
 
@@ -11,8 +11,10 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
     cd .. && \
     rm -rf ta-lib*
 
+RUN apt update && apt install -y libatlas-base-dev && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip install --extra-index-url https://www.piwheels.org/simple -r requirements.txt
 
 COPY . .
 

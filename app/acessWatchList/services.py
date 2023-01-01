@@ -1,6 +1,6 @@
 from flask import make_response, jsonify
 
-from db_access import db_action
+from app.utils.db_access import db_action
 
 
 def add_stock_to_watch_list(email, brandNames):
