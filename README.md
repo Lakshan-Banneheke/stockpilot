@@ -1,4 +1,6 @@
-# stockpilot
+# StockPilot
+
+### [Video Demo](https://www.youtube.com/watch?v=7Xej3eWsAy4&ab_channel=StockPilot)
 
 ### Python Virtual Environment Setup
 Make sure you have python 3.6 or higher installed.
