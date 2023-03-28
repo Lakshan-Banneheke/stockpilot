@@ -45,7 +45,7 @@ spec:
     spec:
       containers:
       - name: stockpilot-backend
-        image: lakshanbanneheke/stockpilot:rpi
+        image: lakshanbanneheke/stockpilot:latest
         imagePullPolicy: Always
         securityContext:
           privileged: true
